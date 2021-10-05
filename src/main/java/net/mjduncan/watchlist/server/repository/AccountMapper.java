@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,5 @@ public interface AccountMapper {
             "VALUES (#{username}, #{password})"
     )
     @Options(keyProperty = "id", keyColumn = "id", useGeneratedKeys = true)
-    void insert(Account account);
+    void insert(Account account) throws PersistenceException;
 }

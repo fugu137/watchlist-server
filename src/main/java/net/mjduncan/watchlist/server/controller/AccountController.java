@@ -13,13 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
-public class AccountResource {
+public class AccountController {
 
     private final AccountService accountService;
 
     private final PasswordEncoder passwordEncoder;
 
-    public AccountResource(AccountService accountService, PasswordEncoder passwordEncoder) {
+    public AccountController(AccountService accountService, PasswordEncoder passwordEncoder) {
         this.accountService = accountService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -40,7 +40,7 @@ public class AccountResource {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
