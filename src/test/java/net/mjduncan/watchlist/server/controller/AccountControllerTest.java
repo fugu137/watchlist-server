@@ -46,8 +46,8 @@ public class AccountControllerTest {
 
 
     @Test
-    @WithMockUser()
-    void shouldGetAllAccounts() throws Exception {
+    @WithMockUser(username = "Jacqueline", roles = "ADMIN")
+    void shouldGetAllAccountsIfUserHasAdminStatus() throws Exception {
         List<Account> accounts = List.of(new Account("Michael", "password"), new Account("Test", "test123"));
         String accountsAsJson = new ObjectMapper().writeValueAsString(accounts);
 
@@ -56,6 +56,19 @@ public class AccountControllerTest {
         mockMvc.perform(get("/accounts"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(accountsAsJson));
+
+        verify(accountService).getAllAccounts();
+    }
+
+    @Test
+    @WithMockUser(username = "Michael", roles = "USER")
+    void shouldNotGetAllAccountsIfUserLacksAdminStatus() throws Exception {
+        List<Account> accounts = List.of(new Account("Michael", "password"), new Account("Test", "test123"));
+
+        when(accountService.getAllAccounts()).thenReturn(accounts);
+
+        mockMvc.perform(get("/accounts"))
+                .andExpect(status().isForbidden());
     }
 
     @Test

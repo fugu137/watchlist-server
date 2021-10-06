@@ -27,7 +27,7 @@ public class UserAccountDetailsService implements UserDetailsService {
         Account account = accountMapper.findByUsername(username)
                                        .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(account.getRole().toString()));
         return new User(account.getUsername(), account.getPassword(), authorities);
     }
 }

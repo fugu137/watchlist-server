@@ -1,14 +1,16 @@
 package net.mjduncan.watchlist.server.model;
 
 import java.util.Objects;
+import static net.mjduncan.watchlist.server.model.UserRole.*;
 
 
 //@JsonIgnoreProperties("password")
 public class Account {
 
     private Long id;
-    private String username;
+    private final String username;
     private String password;
+    private UserRole role = ROLE_USER;
 
     public Account(String username, String password) {
         this.username = username;
@@ -27,16 +29,20 @@ public class Account {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override

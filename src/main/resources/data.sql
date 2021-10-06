@@ -1,6 +1,6 @@
 --Accounts--
-INSERT INTO accounts
-    VALUES (1, 'Michael', '$2a$10$8LYOG9BWyJ3XB7WuJFV18.ssn8kw7L./fGcYemNRjJu8ZOsRORuBS')
+INSERT INTO accounts (username, password, role)
+    VALUES ('Michael', '$2a$10$8LYOG9BWyJ3XB7WuJFV18.ssn8kw7L./fGcYemNRjJu8ZOsRORuBS', 'ROLE_ADMIN')
     ON CONFLICT DO NOTHING;
 
 --Movies--

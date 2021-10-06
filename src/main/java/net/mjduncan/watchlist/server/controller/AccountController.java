@@ -5,6 +5,7 @@ import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
-
     private final PasswordEncoder passwordEncoder;
+
 
     public AccountController(AccountService accountService, PasswordEncoder passwordEncoder) {
         this.accountService = accountService;
@@ -26,6 +27,7 @@ public class AccountController {
 
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(accountService.getAllAccounts());
     }

@@ -1,7 +1,7 @@
 package net.mjduncan.watchlist.server.model;
 
-
 import java.util.Objects;
+
 
 public class Movie {
 
