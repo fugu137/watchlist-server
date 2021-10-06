@@ -1,8 +1,9 @@
 package net.mjduncan.watchlist.server.model;
 
-
 import java.util.Objects;
 
+
+//@JsonIgnoreProperties("password")
 public class Account {
 
     private Long id;
