@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS accounts (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(55) NOT NULL,
+    password VARCHAR(155) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS movies (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);

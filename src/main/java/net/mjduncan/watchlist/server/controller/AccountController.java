@@ -33,14 +33,8 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
         Account account = createAccountRequest.toAccount(passwordEncoder);
+        accountService.addAccount(account);
 
-        try {
-            accountService.addAccount(account);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

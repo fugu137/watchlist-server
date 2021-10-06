@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -78,21 +77,5 @@ public class AccountControllerTest {
         assertThat(capturedAccount.getId(), is(account.getId()));
         assertThat(capturedAccount.getUsername(), is(account.getUsername()));
         assertThat(passwordEncoder.matches(password, capturedAccount.getPassword()), is(true));
-    }
-
-    @Test
-    void shouldReturnBadRequestIfAccountServiceThrowsException() throws Exception {
-        String username = "Jacqueline";
-        String password = "password";
-
-        Account account = new Account(username, password);
-        String jsonAccount = new ObjectMapper().writeValueAsString(account);
-
-        doThrow(new PersistenceException()).when(accountService).addAccount(any());
-
-        mockMvc.perform(post("/accounts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonAccount))
-                .andExpect(status().isBadRequest());
     }
 }

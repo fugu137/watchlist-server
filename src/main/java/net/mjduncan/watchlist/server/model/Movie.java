@@ -1,6 +1,8 @@
 package net.mjduncan.watchlist.server.model;
 
 
+import java.util.Objects;
+
 public class Movie {
 
     private Long id;
@@ -24,5 +26,23 @@ public class Movie {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(id, movie.id) && name.equals(movie.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Id: %s, Name: %s", this.id, this.name);
     }
 }

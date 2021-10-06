@@ -26,7 +26,7 @@ public class AccountService {
         return accountMapper.findAll();
     }
 
-    public void addAccount(Account account) throws SQLException {
+    public void addAccount(Account account) {
         accountMapper.insert(account);
     }
 }
