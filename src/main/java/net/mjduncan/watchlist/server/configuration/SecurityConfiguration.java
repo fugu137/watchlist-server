@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
 @Configuration
@@ -36,17 +36,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .mvcMatchers(HttpMethod.POST, "/accounts").permitAll()
-                .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().csrf().disable()
-                .formLogin()
-                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
-                .defaultSuccessUrl("/movies", true)
+        http
+                .httpBasic()
+                    .and()
+                .authorizeRequests()
+                    .mvcMatchers(HttpMethod.GET, "/").permitAll()
+                    .mvcMatchers(HttpMethod.POST, "/accounts").permitAll()
+                    .anyRequest().authenticated()
                 .and()
+                .formLogin()
+                    .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+                    .defaultSuccessUrl("/movies", true)
+                    .and()
                 .logout()
-                .logoutSuccessUrl("/login");
+                    .logoutSuccessUrl("/login")
+                    .and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
     }
 }

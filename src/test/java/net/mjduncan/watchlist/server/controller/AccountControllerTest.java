@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,9 +47,9 @@ public class AccountControllerTest {
 
 
     @Test
-    @WithMockUser(username = "Jacqueline", roles = "ADMIN")
-    void shouldGetAllAccountsIfUserHasAdminStatus() throws Exception {
-        List<Account> accounts = List.of(new Account("Michael", "password"), new Account("Test", "test123"));
+    @WithMockUser(username = "Michael", password = "anything", roles = "ADMIN")
+    void shouldGetAllAccountsIfUserIsAuthorized() throws Exception {
+        List<Account> accounts = List.of(new Account("Jacqueline", "password"), new Account("Test", "test123"));
         String accountsAsJson = new ObjectMapper().writeValueAsString(accounts);
 
         when(accountService.getAllAccounts()).thenReturn(accounts);
@@ -80,7 +81,8 @@ public class AccountControllerTest {
         String jsonAccount = new ObjectMapper().writeValueAsString(account);
 
         mockMvc.perform(post("/accounts")
-                .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonAccount))
                 .andExpect(status().isCreated());
 

@@ -27,7 +27,7 @@ public class AccountController {
 
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("authentication.principal.username == 'Michael' && hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
