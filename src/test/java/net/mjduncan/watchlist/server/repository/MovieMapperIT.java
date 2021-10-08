@@ -1,8 +1,7 @@
-package net.mjduncan.watchlist.server.persistence;
+package net.mjduncan.watchlist.server.repository;
 
 
 import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.repository.MovieMapper;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import static org.hamcrest.Matchers.hasItem;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class MovieMapperTest {
+public class MovieMapperIT {
 
     @Autowired
     private MovieMapper movieMapper;

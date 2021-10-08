@@ -1,7 +1,6 @@
-package net.mjduncan.watchlist.server.persistence;
+package net.mjduncan.watchlist.server.repository;
 
 import net.mjduncan.watchlist.server.model.Account;
-import net.mjduncan.watchlist.server.repository.AccountMapper;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AccountMapperTest {
+public class AccountMapperIT {
 
     @Autowired
     private AccountMapper accountMapper;

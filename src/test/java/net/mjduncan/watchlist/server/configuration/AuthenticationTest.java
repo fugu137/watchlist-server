@@ -1,4 +1,4 @@
-package net.mjduncan.watchlist.server;
+package net.mjduncan.watchlist.server.configuration;
 
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.AccountController;
