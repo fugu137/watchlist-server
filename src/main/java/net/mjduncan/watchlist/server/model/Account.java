@@ -1,7 +1,8 @@
 package net.mjduncan.watchlist.server.model;
 
 import java.util.Objects;
-import static net.mjduncan.watchlist.server.model.UserRole.*;
+
+import static net.mjduncan.watchlist.server.model.UserRole.ROLE_USER;
 
 
 //@JsonIgnoreProperties("password")

@@ -3,10 +3,10 @@ package net.mjduncan.watchlist.server.controller;
 import net.mjduncan.watchlist.server.controller.dto.CreateAccountRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +16,8 @@ import java.util.List;
 @RequestMapping("/accounts")
 public class AccountController {
 
-    private final AccountService accountService;
-    private final PasswordEncoder passwordEncoder;
-
-
-    public AccountController(AccountService accountService, PasswordEncoder passwordEncoder) {
-        this.accountService = accountService;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private AccountService accountService;
 
 
     @GetMapping
@@ -34,8 +28,7 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
-        Account account = createAccountRequest.toAccount(passwordEncoder);
-        accountService.addAccount(account);
+        accountService.addAccount(createAccountRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
