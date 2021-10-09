@@ -40,7 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                     .and()
                 .authorizeRequests()
-                    .mvcMatchers(HttpMethod.GET, "/").permitAll()
                     .mvcMatchers(HttpMethod.POST, "/accounts").permitAll()
                     .anyRequest().authenticated()
                 .and()
