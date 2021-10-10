@@ -38,7 +38,7 @@ public class AuthenticationTest {
 
 
     @Test
-    void shouldRedirectOnLoginWithValidDetails() throws Exception {
+    void shouldReturn200AfterLoginWithValidDetails() throws Exception {
         String username = "username";
         String password = "password";
 
@@ -46,12 +46,11 @@ public class AuthenticationTest {
         when(userAccountDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
 
         mockMvc.perform(formLogin("/login").user(username).password(password))
-                .andExpect(status().is(302))
-                .andExpect(redirectedUrl("/movies"));
+                .andExpect(status().is(200));
     }
 
     @Test
-    void shouldRedirectToErrorPageOnLoginWithInvalidDetails() throws Exception {
+    void shouldReturn401AfterLoginWithInvalidDetails() throws Exception {
         String username = "username";
         String password = "password";
         String wrongPassword = "drowssap";
@@ -60,15 +59,12 @@ public class AuthenticationTest {
         when(userAccountDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
 
         mockMvc.perform(formLogin("/login").user(username).password(wrongPassword))
-                .andExpect(status().is(302))
-                .andExpect(redirectedUrl("/login?error"));
-
+                .andExpect(status().is(401));
     }
 
     @Test
-    void shouldRedirectToLoginPageOnLogout() throws Exception {
+    void shouldReturn200AfterSuccessfulLogout() throws Exception {
         mockMvc.perform(logout())
-                .andExpect(status().is(302))
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(status().is(200));
     }
 }

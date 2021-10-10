@@ -2,6 +2,7 @@ package net.mjduncan.watchlist.server.controller;
 
 import net.mjduncan.watchlist.server.service.MovieService;
 import net.mjduncan.watchlist.server.model.Movie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,10 @@ public class MovieController {
 
 
     @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieService.getAllMovies();
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        return ResponseEntity.ok(movieService.getAllMovies());
     }
+
+//    @GetMapping
+//    public List<Movie>
 }
