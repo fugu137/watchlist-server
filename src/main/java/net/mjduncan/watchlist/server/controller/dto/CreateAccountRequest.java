@@ -4,6 +4,7 @@ package net.mjduncan.watchlist.server.controller.dto;
 import net.mjduncan.watchlist.server.model.Account;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 public class CreateAccountRequest {
 
     private final String username;

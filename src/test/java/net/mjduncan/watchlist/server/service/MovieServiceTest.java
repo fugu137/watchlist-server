@@ -1,5 +1,6 @@
 package net.mjduncan.watchlist.server.service;
 
+import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.repository.MovieMapper;
 import org.junit.jupiter.api.Test;
@@ -34,5 +35,37 @@ public class MovieServiceTest {
 
         verify(movieMapper, times(1)).findAll();
         assertThat(results, is(movies));
+    }
+
+    @Test
+    void shouldAddMovieByUserId() {
+        AddMovieRequest addMovieRequest = new AddMovieRequest("Drive");
+        Movie movie = addMovieRequest.toMovie();
+        Long userId = 333L;
+        Long movieId = 5L;
+
+        doAnswer(invocation -> {
+            Movie argument = invocation.getArgument(0);
+            argument.setId(movieId);
+            movie.setId(movieId);
+            return null;
+        }).when(movieMapper).insertMovie(movie);
+
+        movieService.addMovieById(userId, addMovieRequest);
+
+        verify(movieMapper, times(1)).insertMovie(movie);
+        verify(movieMapper, times(1)).insertMovieByUserId(userId, movieId);
+    }
+
+    @Test
+    void shouldGetMoviesById() {
+        List<Movie> movies = List.of(new Movie("Drive"), new Movie("True Grit"));
+        Long userId = 10L;
+
+        when(movieMapper.findAllById(userId)).thenReturn(movies);
+        List<Movie> results = movieService.getMoviesById(userId);
+
+        assertThat(results, is(movies));
+        verify(movieMapper).findAllById(userId);
     }
 }

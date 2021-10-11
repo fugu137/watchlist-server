@@ -8,6 +8,7 @@ public class Movie {
     private Long id;
     private String name;
 
+
     public Movie(String name) {
         this.name = name;
     }
