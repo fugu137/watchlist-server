@@ -34,16 +34,4 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-//    @GetMapping("/principal")
-//    public ResponseEntity<Account> getPrincipal(Authentication authentication) {
-//        if (authentication == null) {
-//            return ResponseEntity.noContent().build();
-//        }
-//
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        Account account = new Account(userDetails.getUsername(), userDetails.getPassword());
-//
-//        return  ResponseEntity.ok(account);
-//    }
 }

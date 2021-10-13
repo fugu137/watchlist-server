@@ -66,14 +66,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .httpBasic()
-//                    .and()
                 .exceptionHandling()
                     .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorised"))
                     .and()
                 .authorizeRequests()
                     .mvcMatchers(HttpMethod.POST, "/accounts").not().authenticated()
-                    .mvcMatchers(HttpMethod.GET, "/token").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .cors()
