@@ -23,8 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(AccountController.class)
@@ -89,4 +88,19 @@ public class AccountControllerTest {
         assertThat(capturedDto.getUsername(), is(account.getUsername()));
         assertThat(capturedDto.getPassword(), is(password));
     }
+
+//    @Test
+//    @WithMockUser(username = "test_username", password = "testPassword")
+//    void shouldReturnPrincipalIfLoggedIn() throws Exception {
+//        mockMvc.perform(get("/accounts/principal"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.username").value("test_username"))
+//                .andExpect(jsonPath("$.role").value("ROLE_USER"));
+//    }
+//
+//    @Test
+//    void shouldNotReturnPrincipalIfNotLoggedIn() throws Exception {
+//        mockMvc.perform(get("/accounts/principal"))
+//                .andExpect(status().isNoContent());
+//    }
 }

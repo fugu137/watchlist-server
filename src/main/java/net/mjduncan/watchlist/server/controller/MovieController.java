@@ -2,13 +2,11 @@ package net.mjduncan.watchlist.server.controller;
 
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
 import net.mjduncan.watchlist.server.model.Account;
+import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
-import net.mjduncan.watchlist.server.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +60,6 @@ public class MovieController {
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    public ResponseEntity<String> handle(Exception e) {
 //        System.out.println("Returning HTTP 400 Bad Request" + e);
-//        return ResponseEntity.status(203).build();
+//        return ResponseEntity.status(400).build();
 //    }
 }

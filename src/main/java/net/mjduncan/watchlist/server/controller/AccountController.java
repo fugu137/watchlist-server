@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,4 +34,16 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+//    @GetMapping("/principal")
+//    public ResponseEntity<Account> getPrincipal(Authentication authentication) {
+//        if (authentication == null) {
+//            return ResponseEntity.noContent().build();
+//        }
+//
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        Account account = new Account(userDetails.getUsername(), userDetails.getPassword());
+//
+//        return  ResponseEntity.ok(account);
+//    }
 }
