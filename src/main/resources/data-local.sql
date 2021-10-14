@@ -1,10 +1,10 @@
 --Accounts--
 INSERT INTO accounts (username, password, role)
-    VALUES ('Michael', 'a0LYOG9BWyJ3XB7WuJFV18.ssn8kw7L./fGcYemNRjJu8ZOsRORuBS', 'ROLE_ADMIN')
+    VALUES ('Michael', '$2a$10$WDo7DxmFFarRceJWIFVG1eMHVYiqsWYBdMxFdDieo4pdbWkahtutm', 'ROLE_ADMIN')
     ON CONFLICT DO NOTHING;
 
 INSERT INTO accounts (username, password, role)
-    VALUES ('Jacqueline', '$2a$10$BvZ8TR8zh1GBs50BWO5yUe2pcOLqeMrZ9k5RmO6SQQCX8hFcyeedy', 'ROLE_USER')
+    VALUES ('Jacqueline', '$2a$10$9Otu4K3HW.xp9uwv6rQG9eW/FHbJ1IPJVaMrYVGL4HWhrDgc9qkSm', 'ROLE_USER')
     ON CONFLICT DO NOTHING;
 
 
