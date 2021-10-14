@@ -4,7 +4,7 @@ INSERT INTO accounts (username, password, role)
     ON CONFLICT DO NOTHING;
 
 INSERT INTO accounts (username, password, role)
-    VALUES ('Jie', '$2a$10$BvZ8TR8zh1GBs50BWO5yUe2pcOLqeMrZ9k5RmO6SQQCX8hFcyeedy', 'ROLE_USER')
+    VALUES ('Jacqueline', '$2a$10$BvZ8TR8zh1GBs50BWO5yUe2pcOLqeMrZ9k5RmO6SQQCX8hFcyeedy', 'ROLE_USER')
     ON CONFLICT DO NOTHING;
 
 
