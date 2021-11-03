@@ -19,15 +19,6 @@ public class MovieService {
     @Autowired
     private MovieMapper movieMapper;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${omdb.base.url}")
-    private String omdbBaseUrl;
-
-    @Value("${omdb.api.key")
-    private String omdbApiKey;
-
 
     public List<Movie> getAllMovies() {
         return movieMapper.findAll();
@@ -45,13 +36,4 @@ public class MovieService {
         return movieMapper.findAllById(userId);
     }
 
-    public List<Movie> importBySearchTerm(String searchTerm) {
-        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie";
-
-        SearchResults results = restTemplate.getForObject(url, SearchResults.class);
-        if (results != null) {
-            return results.getMovies();
-        }
-        return null;
-    }
 }

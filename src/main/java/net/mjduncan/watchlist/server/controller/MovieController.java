@@ -56,17 +56,6 @@ public class MovieController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Movie>> importBySearchTerm(@RequestParam String searchTerm) {
-        List<Movie> results = movieService.importBySearchTerm(searchTerm);
-
-        if (results != null) {
-            return ResponseEntity.ok(results);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 //    @ExceptionHandler
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    public ResponseEntity<String> handle(Exception e) {
