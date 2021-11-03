@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,6 +153,42 @@ public class MovieControllerTest {
 
         verify(movieService, times(0)).getMoviesById(id);
         verify(accountService, times(1)).getAccountByUsername(username);
+    }
+
+    @Test
+    @WithMockUser
+    void shouldImportMoviesIfApiCallSuccessful() throws Exception {
+        String param = "movieTitle";
+        List<Movie> movies = List.of(new Movie("Gone Girl"), new Movie("Team America"));
+        String moviesAsJson = new ObjectMapper().writeValueAsString(movies);
+
+        when(movieService.importBySearchTerm(param)).thenReturn(movies);
+
+        mockMvc.perform(get("/movies/search")
+                        .param("searchTerm", param)
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(moviesAsJson));
+
+        verify(movieService, times(1)).importBySearchTerm(param);
+    }
+
+    @Test
+    @WithMockUser
+    void shouldNotImportMoviesIfApiCallReturnsNull() throws Exception {
+        String param = "movieTitle";
+
+        when(movieService.importBySearchTerm(param)).thenReturn(null);
+
+        mockMvc.perform(get("/movies/search")
+                        .param("searchTerm", param)
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
+
+        verify(movieService, times(1)).importBySearchTerm(param);
     }
 
 }

@@ -3,6 +3,7 @@ package net.mjduncan.watchlist.server.controller;
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.SearchResults;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +51,20 @@ public class MovieController {
 
         if (account.isPresent()) {
             Long id = account.get().getId();
-
             return ResponseEntity.ok(movieService.getMoviesById(id));
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> importBySearchTerm(@RequestParam String searchTerm) {
+        List<Movie> results = movieService.importBySearchTerm(searchTerm);
+
+        if (results != null) {
+            return ResponseEntity.ok(results);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 //    @ExceptionHandler
