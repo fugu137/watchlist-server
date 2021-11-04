@@ -1,5 +1,6 @@
 package net.mjduncan.watchlist.server.controller;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.CreateAccountRequest;
@@ -74,7 +75,9 @@ public class AccountControllerTest {
         String password = "password";
 
         Account account = new Account(username, password);
-        String jsonAccount = new ObjectMapper().writeValueAsString(account);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(MapperFeature.USE_ANNOTATIONS);
+        String jsonAccount = mapper.writeValueAsString(account);
 
         mockMvc.perform(post("/accounts")
                         .with(csrf().asHeader())

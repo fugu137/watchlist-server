@@ -1,7 +1,5 @@
 package net.mjduncan.watchlist.server.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
+/**
+ *  This class allows access to the OMDB movie database api at https://www.omdbapi.com
+ */
 @Service
 public class OMDBService {
 
@@ -22,8 +23,11 @@ public class OMDBService {
     @Value("${omdb.api.key}")
     private String omdbApiKey;
 
-    private final String titleSearchPrefix = "&s=";
-    private final String idSearchPrefix = "&i=";
+    @Value("S{omdb.title.search.prefix}")
+    private String titleSearchPrefix;
+
+    @Value("${omdb.id.search.prefix}")
+    private String idSearchPrefix;
 
 
     public ResponseEntity<SearchResults> searchMoviesByTitle(String movieTitle) {

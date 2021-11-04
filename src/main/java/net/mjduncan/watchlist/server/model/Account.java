@@ -1,11 +1,13 @@
 package net.mjduncan.watchlist.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Objects;
 
 import static net.mjduncan.watchlist.server.model.UserRole.ROLE_USER;
 
 
-//@JsonIgnoreProperties("password")
+@JsonIgnoreProperties("password")
 public class Account {
 
     private Long id;

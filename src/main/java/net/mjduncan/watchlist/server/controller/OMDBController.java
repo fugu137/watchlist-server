@@ -2,6 +2,7 @@ package net.mjduncan.watchlist.server.controller;
 
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.MovieWithDetails;
 import net.mjduncan.watchlist.server.service.OMDBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+/**
+ * This class allows access to the OMDB movie database api at https://www.omdbapi.com
+ */
 @RestController
 @RequestMapping("/omdb")
 public class OMDBController {
@@ -31,4 +35,9 @@ public class OMDBController {
         return ResponseEntity.status(status).body(null);
     }
 
+    @GetMapping("/{imdbId}")
+    public ResponseEntity<MovieWithDetails> getMovieInfo(@PathVariable String imdbID) {
+        //TODO: implement
+        return null;
+    }
 }
