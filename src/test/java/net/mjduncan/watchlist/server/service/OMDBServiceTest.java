@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class SearchServiceTest {
+public class OMDBServiceTest {
 
     @InjectMocks
-    private SearchService searchService;
+    private OMDBService omdbService;
 
     @Mock
     private RestTemplate restTemplate;
@@ -38,8 +38,8 @@ public class SearchServiceTest {
     void shouldImportMoviesIfApiCallSuccessful() throws JsonProcessingException {
         String omdbBaseUrl = "http://www.omdbapi.com";
         String omdbApiKey = "12345";
-        ReflectionTestUtils.setField(searchService, "omdbBaseUrl", omdbBaseUrl);
-        ReflectionTestUtils.setField(searchService, "omdbApiKey", omdbApiKey);
+        ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", omdbBaseUrl);
+        ReflectionTestUtils.setField(omdbService, "omdbApiKey", omdbApiKey);
 
         String movieTitle = "Dog";
         List<Movie> movies = List.of(new Movie("1", "Dog Day Afternoon"), new Movie("2", "Donnie Darko"));
@@ -49,7 +49,7 @@ public class SearchServiceTest {
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
         when(restTemplate.getForEntity(url, SearchResults.class)).thenReturn(ResponseEntity.ok(searchResults));
 
-        List<Movie> results = searchService.searchMoviesByTitle(movieTitle).getBody().getMovies();
+        List<Movie> results = omdbService.searchMoviesByTitle(movieTitle).getBody().getMovies();
 
         assertThat(results, is(movies));
         verify(restTemplate).getForEntity(url, SearchResults.class);
@@ -59,14 +59,14 @@ public class SearchServiceTest {
     void shouldNotImportMoviesIfApiCallUnsuccessful() throws JsonProcessingException {
         String wrongBaseUrl = "http://wrongUrl.com";
         String wrongApiKey = "11111";
-        ReflectionTestUtils.setField(searchService, "omdbBaseUrl", wrongBaseUrl);
-        ReflectionTestUtils.setField(searchService, "omdbApiKey", wrongApiKey);
+        ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", wrongBaseUrl);
+        ReflectionTestUtils.setField(omdbService, "omdbApiKey", wrongApiKey);
 
         String movieTitle = "Dog";
         String url = wrongBaseUrl + "/?apikey=" + wrongApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
         when(restTemplate.getForEntity(url, SearchResults.class)).thenReturn(ResponseEntity.badRequest().build());
 
-        ResponseEntity<SearchResults> results = searchService.searchMoviesByTitle(movieTitle);
+        ResponseEntity<SearchResults> results = omdbService.searchMoviesByTitle(movieTitle);
 
         assertNull(results.getBody());
         verify(restTemplate).getForEntity(url, SearchResults.class);

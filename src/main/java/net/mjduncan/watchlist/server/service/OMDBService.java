@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 @Service
-public class SearchService {
+public class OMDBService {
 
     @Autowired
     private RestTemplate restTemplate;

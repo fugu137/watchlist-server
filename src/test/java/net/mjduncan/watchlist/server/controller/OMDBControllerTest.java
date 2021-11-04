@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.service.SearchService;
+import net.mjduncan.watchlist.server.service.OMDBService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,14 +24,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(SearchController.class)
-public class SearchControllerTest {
+@WebMvcTest(OMDBController.class)
+public class OMDBControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private SearchService searchService;
+    private OMDBService omdbService;
 
     @MockBean
     private UserAccountDetailsService userAccountDetailsService;
@@ -47,16 +47,16 @@ public class SearchControllerTest {
         searchResults.setMovies(movies);
         String resultsAsJson = new ObjectMapper().writeValueAsString(searchResults.getMovies());
 
-        when(searchService.searchMoviesByTitle(param)).thenReturn(ResponseEntity.ok(searchResults));
+        when(omdbService.searchMoviesByTitle(param)).thenReturn(ResponseEntity.ok(searchResults));
 
-        mockMvc.perform(get("/search")
+        mockMvc.perform(get("/omdb")
                         .param("movieTitle", param)
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(resultsAsJson));
 
-        verify(searchService, times(1)).searchMoviesByTitle(param);
+        verify(omdbService, times(1)).searchMoviesByTitle(param);
     }
 
     @Test
@@ -64,16 +64,16 @@ public class SearchControllerTest {
     void shouldNotImportMoviesIfApiCallReturnsError() throws Exception {
         String param = "movieTitle";
 
-        when(searchService.searchMoviesByTitle(param)).thenReturn(ResponseEntity.notFound().build());
+        when(omdbService.searchMoviesByTitle(param)).thenReturn(ResponseEntity.notFound().build());
 
-        mockMvc.perform(get("/search")
+        mockMvc.perform(get("/omdb")
                         .param("movieTitle", param)
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(""));
 
-        verify(searchService, times(1)).searchMoviesByTitle(param);
+        verify(omdbService, times(1)).searchMoviesByTitle(param);
     }
 
 }
