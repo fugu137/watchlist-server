@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class MovieServiceTest {
 
     @Test
     void shouldFindAllMovies() {
-        List<Movie> movies = List.of(new Movie("Gladiator"), new Movie("Drive"), new Movie("Thin Red Line"));
+        List<Movie> movies = List.of(new Movie("1", "Gladiator"), new Movie("2", "Drive"), new Movie("3", "Thin Red Line"));
 
         when(movieMapper.findAll()).thenReturn(movies);
         List<Movie> results = movieService.getAllMovies();
@@ -40,17 +39,10 @@ public class MovieServiceTest {
 
     @Test
     void shouldAddMovieByUserId() {
-        AddMovieRequest addMovieRequest = new AddMovieRequest("Drive");
+        String movieId = "tt0780504";
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, "Drive");
         Movie movie = addMovieRequest.toMovie();
         Long userId = 333L;
-        Long movieId = 5L;
-
-        doAnswer(invocation -> {
-            Movie argument = invocation.getArgument(0);
-            argument.setId(movieId);
-            movie.setId(movieId);
-            return null;
-        }).when(movieMapper).insertMovie(movie);
 
         movieService.addMovieById(userId, addMovieRequest);
 
@@ -60,7 +52,7 @@ public class MovieServiceTest {
 
     @Test
     void shouldGetMoviesById() {
-        List<Movie> movies = List.of(new Movie("Drive"), new Movie("True Grit"));
+        List<Movie> movies = List.of(new Movie("1", "Drive"), new Movie("2", "True Grit"));
         Long userId = 10L;
 
         when(movieMapper.findAllById(userId)).thenReturn(movies);

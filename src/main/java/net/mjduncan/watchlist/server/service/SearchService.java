@@ -1,13 +1,14 @@
 package net.mjduncan.watchlist.server.service;
 
-import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.model.SearchResults;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 
 @Service
 public class SearchService {
@@ -18,17 +19,16 @@ public class SearchService {
     @Value("${omdb.base.url}")
     private String omdbBaseUrl;
 
-    @Value("${omdb.api.key")
+    @Value("${omdb.api.key}")
     private String omdbApiKey;
 
+    private final String titleSearchPrefix = "&s=";
+    private final String idSearchPrefix = "&i=";
 
-    public List<Movie> searchMovies(String searchTerm) {
-        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie";
 
-        SearchResults results = restTemplate.getForObject(url, SearchResults.class);
-        if (results != null) {
-            return results.getMovies();
-        }
-        return null;
+    public ResponseEntity<SearchResults> searchMoviesByTitle(String movieTitle) {
+        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
+
+        return restTemplate.getForEntity(url, SearchResults.class);
     }
 }

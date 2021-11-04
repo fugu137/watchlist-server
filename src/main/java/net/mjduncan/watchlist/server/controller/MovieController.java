@@ -3,7 +3,6 @@ package net.mjduncan.watchlist.server.controller;
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.model.SearchResults;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;

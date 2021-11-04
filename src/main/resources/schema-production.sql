@@ -6,12 +6,12 @@ CREATE TABLE IF NOT EXISTS accounts (
 );
 
 CREATE TABLE IF NOT EXISTS movies (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(255) NOT NULL
+    imdb_id VARCHAR(10) PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS accounts_movies (
     account_id BIGINT REFERENCES accounts(id),
-    movie_id BIGINT REFERENCES movies(id),
+    movie_id VARCHAR(10) REFERENCES movies(imdb_id),
     PRIMARY KEY(account_id, movie_id)
 );

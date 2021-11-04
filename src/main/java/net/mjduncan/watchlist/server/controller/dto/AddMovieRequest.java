@@ -7,25 +7,35 @@ import java.util.Objects;
 
 public class AddMovieRequest {
 
-    private String name;
+    private String imdbId;
+    private String title;
 
 
     public AddMovieRequest() {}
 
-    public AddMovieRequest(String name) {
-        this.name = name;
+    public AddMovieRequest(String imdbId, String title) {
+        this.imdbId = imdbId;
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 
     public Movie toMovie() {
-        return new Movie(name);
+        return new Movie(imdbId, title);
     }
 
     @Override
@@ -33,11 +43,11 @@ public class AddMovieRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddMovieRequest that = (AddMovieRequest) o;
-        return name.equals(that.name);
+        return imdbId.equals(that.imdbId) && Objects.equals(title, that.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(imdbId, title);
     }
 }

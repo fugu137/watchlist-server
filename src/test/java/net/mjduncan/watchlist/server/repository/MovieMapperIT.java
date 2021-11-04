@@ -1,6 +1,5 @@
 package net.mjduncan.watchlist.server.repository;
 
-
 import net.mjduncan.watchlist.server.model.Movie;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -25,8 +24,7 @@ public class MovieMapperIT {
 
     @Test
     void shouldFindAllMovies() {
-        Movie movie = new Movie("Gladiator");
-        movie.setId(1L);
+        Movie movie = new Movie("tt0172495", "Gladiator");
 
         List<Movie> results = movieMapper.findAll();
         assertThat(results, hasItem(movie));
@@ -34,12 +32,9 @@ public class MovieMapperIT {
 
     @Test
     void shouldFindAllMoviesById() {
-        Movie gladiator = new Movie( "Gladiator");
-        gladiator.setId(1L);
-        Movie alien = new Movie("Alien");
-        alien.setId(2L);
-        Movie moonriseKingdom = new Movie("Moonrise Kingdom");
-        moonriseKingdom.setId(3L);
+        Movie gladiator = new Movie("tt0172495", "Gladiator");
+        Movie alien = new Movie("tt0078748", "Alien");
+        Movie moonriseKingdom = new Movie("tt1748122", "Moonrise Kingdom");
 
         List<Movie> movies = List.of(gladiator, alien, moonriseKingdom);
 
@@ -49,7 +44,7 @@ public class MovieMapperIT {
 
     @Test
     void shouldInsertMovie() {
-        Movie movie = new Movie("Drive");
+        Movie movie = new Movie("tt0780504", "Drive");
 
         List<Movie> resultsBefore = movieMapper.findAll();
         assertThat(resultsBefore, not(hasItem(movie)));
@@ -62,13 +57,11 @@ public class MovieMapperIT {
 
     @Test
     void shouldInsertMovieByUserId() {
-        Movie movie = new Movie("Drive");
+        Movie movie = new Movie("tt0780504", "Drive");
         Long userId = 1L;
 
-        assertNull(movie.getId());
         movieMapper.insertMovie(movie);
-
-        Long movieId = movie.getId();
+        String movieId = movie.getId();
         assertNotNull(movieId);
 
         movieMapper.insertMovieByUserId(userId, movieId);

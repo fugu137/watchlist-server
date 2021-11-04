@@ -47,7 +47,7 @@ public class MovieControllerTest {
     @Test
     @WithMockUser
     void shouldReturnAllMoviesIfUserIsAuthenticated() throws Exception {
-        List<Movie> movies = List.of(new Movie("The Godfather"), new Movie("Adventureland"), new Movie("Drive"));
+        List<Movie> movies = List.of(new Movie("1", "The Godfather"), new Movie("2", "Adventureland"), new Movie("3", "Drive"));
         String moviesAsJson = new ObjectMapper().writeValueAsString(movies);
 
         when(movieService.getAllMovies()).thenReturn(movies);
@@ -61,7 +61,7 @@ public class MovieControllerTest {
 
     @Test
     void shouldNotReturnAllMoviesIfUserIsNotAuthenticated() throws Exception {
-        List<Movie> movies = List.of(new Movie("The Godfather"), new Movie("Adventureland"), new Movie("Drive"));
+        List<Movie> movies = List.of(new Movie("1", "The Godfather"), new Movie("2", "Adventureland"), new Movie("3", "Drive"));
 
         when(movieService.getAllMovies()).thenReturn(movies);
 
@@ -80,7 +80,8 @@ public class MovieControllerTest {
         account.setId(id);
 
         String movieName = "Adventureland";
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieName);
+        String movieId = "tt1091722";
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, movieName);
         String jsonRequest = new ObjectMapper().writeValueAsString(addMovieRequest);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
@@ -98,9 +99,10 @@ public class MovieControllerTest {
     @WithMockUser(username = "Jacqueline")
     void shouldNotAddMovieByIdIfUserAccountDoesNotExist() throws Exception {
         String username = "Jacqueline";
+        String movieId = "tt1091722";
         String movieName = "Adventureland";
 
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieName);
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, movieName);
         String jsonRequest = new ObjectMapper().writeValueAsString(addMovieRequest);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.empty());
@@ -121,7 +123,7 @@ public class MovieControllerTest {
         Account account = new Account(username, "password");
         account.setId(id);
 
-        List<Movie> movies = List.of(new Movie("Drive"), new Movie("Hot Fuzz"));
+        List<Movie> movies = List.of(new Movie("1", "Drive"), new Movie("2", "Hot Fuzz"));
         String moviesAsJson = new ObjectMapper().writeValueAsString(movies);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));

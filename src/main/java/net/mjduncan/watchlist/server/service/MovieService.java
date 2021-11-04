@@ -1,15 +1,11 @@
 package net.mjduncan.watchlist.server.service;
 
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
-import net.mjduncan.watchlist.server.model.SearchResults;
 import net.mjduncan.watchlist.server.repository.MovieMapper;
 import net.mjduncan.watchlist.server.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +24,7 @@ public class MovieService {
         Movie movie = addMovieRequest.toMovie();
         movieMapper.insertMovie(movie);
 
-        Long movieId = movie.getId();
+        String movieId = movie.getId();
         movieMapper.insertMovieByUserId(userId, movieId);
     }
 

@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @SpringBootTest
-class ApplicationTest {
+class ApplicationIT {
 
     @Autowired
     private AccountController accountController;

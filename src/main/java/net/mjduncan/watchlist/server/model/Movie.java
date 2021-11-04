@@ -1,32 +1,39 @@
 package net.mjduncan.watchlist.server.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 
 public class Movie {
 
-    private Long id;
-    private String name;
+    @JsonProperty("imdbID")
+    private String imdbID;
 
+    @JsonProperty("Title")
+    private String title;
 
-    public Movie(String name) {
-        this.name = name;
+    public Movie() {}
+
+    public Movie(String imdbID, String title) {
+        this.imdbID = imdbID;
+        this.title = title;
     }
 
-    public Long getId() {
-        return id;
+    public String getId() {
+        return imdbID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(String id) {
+        this.imdbID = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
@@ -34,16 +41,16 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && name.equals(movie.name);
+        return imdbID.equals(movie.imdbID) && title.equals(movie.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(imdbID, title);
     }
 
     @Override
     public String toString() {
-        return String.format("Id: %s, Name: %s", this.id, this.name);
+        return String.format("imdbID: %s, title: %s", this.imdbID, this.title);
     }
 }
