@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
  *  This class allows access to the OMDB movie database api at https://www.omdbapi.com
  */
 @Service
-public class OMDBService {
+public class OmdbService {
 
     @Autowired
     private RestTemplate restTemplate;

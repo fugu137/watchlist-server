@@ -7,10 +7,8 @@ import java.util.Objects;
 
 public class Movie {
 
-    @JsonProperty("imdbID")
     private String imdbID;
 
-    @JsonProperty("Title")
     private String title;
 
     public Movie() {}

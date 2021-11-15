@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.service.OMDBService;
+import net.mjduncan.watchlist.server.service.OmdbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,14 +24,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(OMDBController.class)
-public class OMDBControllerTest {
+@WebMvcTest(OmdbController.class)
+public class OmdbControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private OMDBService omdbService;
+    private OmdbService omdbService;
 
     @MockBean
     private UserAccountDetailsService userAccountDetailsService;

@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class OMDBServiceTest {
+public class OmdbServiceTest {
 
     @InjectMocks
-    private OMDBService omdbService;
+    private OmdbService omdbService;
 
     @Mock
     private RestTemplate restTemplate;

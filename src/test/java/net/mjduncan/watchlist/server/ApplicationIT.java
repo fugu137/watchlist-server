@@ -2,12 +2,12 @@ package net.mjduncan.watchlist.server;
 
 import net.mjduncan.watchlist.server.controller.AccountController;
 import net.mjduncan.watchlist.server.controller.MovieController;
-import net.mjduncan.watchlist.server.controller.OMDBController;
+import net.mjduncan.watchlist.server.controller.OmdbController;
 import net.mjduncan.watchlist.server.repository.AccountMapper;
 import net.mjduncan.watchlist.server.repository.MovieMapper;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
-import net.mjduncan.watchlist.server.service.OMDBService;
+import net.mjduncan.watchlist.server.service.OmdbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +25,7 @@ class ApplicationIT {
     private MovieController movieController;
 
     @Autowired
-    private OMDBController omdbController;
+    private OmdbController omdbController;
 
     @Autowired
     private AccountService accountService;
@@ -34,7 +34,7 @@ class ApplicationIT {
     private MovieService movieService;
 
     @Autowired
-    private OMDBService omdbService;
+    private OmdbService omdbService;
 
     @Autowired
     private AccountMapper accountMapper;

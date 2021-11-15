@@ -3,7 +3,7 @@ package net.mjduncan.watchlist.server.controller;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.model.MovieWithDetails;
-import net.mjduncan.watchlist.server.service.OMDBService;
+import net.mjduncan.watchlist.server.service.OmdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/omdb")
-public class OMDBController {
+public class OmdbController {
 
     @Autowired
-    private OMDBService omdbService;
+    private OmdbService omdbService;
 
     @GetMapping
     public ResponseEntity<List<Movie>> searchMoviesByTitle(@RequestParam String movieTitle) {
