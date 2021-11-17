@@ -13,13 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,6 +39,9 @@ public class AccountControllerTest {
 
     @MockBean
     private AccountService accountService;
+
+    @MockBean
+    Authentication authentication;
 
     @MockBean
     private UserAccountDetailsService userAccountDetailsService;
@@ -91,4 +98,28 @@ public class AccountControllerTest {
         assertThat(capturedDto.getUsername(), is(account.getUsername()));
         assertThat(capturedDto.getPassword(), is(password));
     }
+
+    @Test
+    @WithMockUser(username = "Michael", roles = "USER")
+    void shouldGetPrincipalIfUserLoggedIn() throws Exception {
+        MvcResult response = mockMvc.perform(get("/accounts/principal")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseAsString = response.getResponse().getContentAsString();
+        assertThat(responseAsString, containsString("Michael"));
+        assertThat(responseAsString, containsString("USER"));
+    }
+
+    @Test
+    void shouldReturn401IfNoUserLoggedIn() throws Exception {
+        mockMvc.perform(get("/accounts/principal")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string(""));
+    }
+
 }
