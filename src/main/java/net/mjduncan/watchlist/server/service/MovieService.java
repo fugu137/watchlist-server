@@ -24,7 +24,7 @@ public class MovieService {
         Movie movie = addMovieRequest.toMovie();
         movieMapper.insertMovie(movie);
 
-        String movieId = movie.getId();
+        String movieId = movie.getImdbID();
         movieMapper.insertMovieByUserId(userId, movieId);
     }
 

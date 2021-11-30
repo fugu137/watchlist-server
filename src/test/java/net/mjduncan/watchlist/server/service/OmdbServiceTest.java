@@ -35,14 +35,13 @@ public class OmdbServiceTest {
 
 
     @Test
-    void shouldImportMoviesIfApiCallSuccessful() throws JsonProcessingException {
+    void shouldImportMoviesIfApiCallSuccessful() {
         String omdbBaseUrl = "http://www.omdbapi.com";
         String omdbApiKey = "12345";
         String titleSearchPrefix = "&s=";
 
         ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", omdbBaseUrl);
         ReflectionTestUtils.setField(omdbService, "omdbApiKey", omdbApiKey);
-        ReflectionTestUtils.setField(omdbService, "titleSearchPrefix", titleSearchPrefix);
 
         String movieTitle = "Dog";
         List<Movie> movies = List.of(new Movie("1", "Dog Day Afternoon"), new Movie("2", "Donnie Darko"));
@@ -59,14 +58,13 @@ public class OmdbServiceTest {
     }
 
     @Test
-    void shouldNotImportMoviesIfApiCallUnsuccessful() throws JsonProcessingException {
+    void shouldNotImportMoviesIfApiCallUnsuccessful() {
         String wrongBaseUrl = "http://wrongUrl.com";
         String wrongApiKey = "11111";
         String titleSearchPrefix = "&s=";
 
         ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", wrongBaseUrl);
         ReflectionTestUtils.setField(omdbService, "omdbApiKey", wrongApiKey);
-        ReflectionTestUtils.setField(omdbService, "titleSearchPrefix", titleSearchPrefix);
 
         String movieTitle = "Dog";
         String url = wrongBaseUrl + "/?apikey=" + wrongApiKey + "&type=movie" + titleSearchPrefix + movieTitle;

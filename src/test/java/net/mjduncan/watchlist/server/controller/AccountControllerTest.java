@@ -110,7 +110,6 @@ public class AccountControllerTest {
 
         String responseAsString = response.getResponse().getContentAsString();
         assertThat(responseAsString, containsString("Michael"));
-        assertThat(responseAsString, containsString("USER"));
     }
 
     @Test

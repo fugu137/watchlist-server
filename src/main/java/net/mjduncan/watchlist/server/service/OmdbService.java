@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.print.DocFlavor;
+
 
 /**
  *  This class allows access to the OMDB movie database api at https://www.omdbapi.com
@@ -23,16 +25,13 @@ public class OmdbService {
     @Value("${omdb.api.key}")
     private String omdbApiKey;
 
-    @Value("S{omdb.title.search.prefix}")
-    private String titleSearchPrefix;
+    private String titleSearchPrefix = "&s=";
 
-    @Value("${omdb.id.search.prefix}")
-    private String idSearchPrefix;
+    private String idSearchPrefix = "&i=";
 
 
     public ResponseEntity<SearchResults> searchMoviesByTitle(String movieTitle) {
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
-
         return restTemplate.getForEntity(url, SearchResults.class);
     }
 }

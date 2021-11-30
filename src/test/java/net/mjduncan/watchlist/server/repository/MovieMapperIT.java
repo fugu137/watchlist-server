@@ -61,7 +61,7 @@ public class MovieMapperIT {
         Long userId = 1L;
 
         movieMapper.insertMovie(movie);
-        String movieId = movie.getId();
+        String movieId = movie.getImdbID();
         assertNotNull(movieId);
 
         movieMapper.insertMovieByUserId(userId, movieId);

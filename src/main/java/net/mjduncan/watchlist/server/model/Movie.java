@@ -1,15 +1,17 @@
 package net.mjduncan.watchlist.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
     private String imdbID;
-
     private String title;
+
 
     public Movie() {}
 
@@ -18,18 +20,20 @@ public class Movie {
         this.title = title;
     }
 
-    public String getId() {
+    public String getImdbID() {
         return imdbID;
     }
 
-    public void setId(String id) {
-        this.imdbID = id;
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
     }
 
+    @JsonProperty("title")
     public String getTitle() {
         return title;
     }
 
+    @JsonProperty("Title")
     public void setTitle(String title) {
         this.title = title;
     }
