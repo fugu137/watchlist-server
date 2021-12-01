@@ -3,6 +3,7 @@ package net.mjduncan.watchlist.server.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
+import net.mjduncan.watchlist.server.model.MovieWithDetails;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,16 +31,15 @@ public class OmdbServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
+    private String omdbBaseUrl = "http://www.omdbapi.com";
+    private String omdbApiKey = "12345";
+
     private final String titleSearchPrefix = "&s=";
     private final String idSearchPrefix = "&i=";
 
 
     @Test
-    void shouldImportMoviesIfApiCallSuccessful() {
-        String omdbBaseUrl = "http://www.omdbapi.com";
-        String omdbApiKey = "12345";
-        String titleSearchPrefix = "&s=";
-
+    void shouldFindMoviesByTitle() {
         ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", omdbBaseUrl);
         ReflectionTestUtils.setField(omdbService, "omdbApiKey", omdbApiKey);
 
@@ -58,10 +58,9 @@ public class OmdbServiceTest {
     }
 
     @Test
-    void shouldNotImportMoviesIfApiCallUnsuccessful() {
+    void shouldNotFindMoviesByTitleIfApiCallUnsuccessful() {
         String wrongBaseUrl = "http://wrongUrl.com";
         String wrongApiKey = "11111";
-        String titleSearchPrefix = "&s=";
 
         ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", wrongBaseUrl);
         ReflectionTestUtils.setField(omdbService, "omdbApiKey", wrongApiKey);
@@ -74,5 +73,23 @@ public class OmdbServiceTest {
 
         assertNull(results.getBody());
         verify(restTemplate).getForEntity(url, SearchResults.class);
+    }
+
+    @Test
+    void shouldFindMovieByID() {
+        String imdbID = "ft10234";
+
+        ReflectionTestUtils.setField(omdbService, "omdbBaseUrl", omdbBaseUrl);
+        ReflectionTestUtils.setField(omdbService, "omdbApiKey", omdbApiKey);
+
+        Movie movie = new Movie(imdbID, "New Movie", 1950);
+
+        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID;
+        when(restTemplate.getForEntity(url, Movie.class)).thenReturn(ResponseEntity.ok(movie));
+
+        Movie result = omdbService.searchMoviesByID(imdbID).getBody();
+
+        assertThat(result, is(movie));
+        verify(restTemplate).getForEntity(url, Movie.class);
     }
 }

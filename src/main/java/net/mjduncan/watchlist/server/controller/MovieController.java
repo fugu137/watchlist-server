@@ -5,6 +5,7 @@ import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
+import net.mjduncan.watchlist.server.service.OmdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,9 @@ public class MovieController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private OmdbService omdbService;
+
 
     @GetMapping("/all")
     public ResponseEntity<List<Movie>> getAllMovies() {
@@ -31,34 +35,45 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addMovieByUser(@RequestBody AddMovieRequest addMovieRequest, Authentication authentication) {
+    public ResponseEntity<String> addUserMovie(@RequestBody AddMovieRequest addMovieRequest, Authentication authentication) {
         String username = authentication.getName();
         Optional<Account> account = accountService.getAccountByUsername(username);
 
         if (account.isPresent()) {
-            Long id = account.get().getId();
-            movieService.addMovieById(id, addMovieRequest);
+            Long userID = account.get().getId();
+            String imdbID = addMovieRequest.getImdbID();
+
+            Optional<Movie> movieToFind = movieService.getUserMovieByImdbId(userID, imdbID);
+
+            if (movieToFind.isPresent()) {
+                return ResponseEntity.status(409).build();
+            }
+
+            ResponseEntity<Movie> response = omdbService.searchMoviesByID(imdbID);
+            Movie movieToAdd = response.getBody();
+
+            if (response.getStatusCodeValue() != 200 || movieToAdd == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            movieService.addUserMovie(userID, movieToAdd);
             return ResponseEntity.ok().build();
         }
+
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getMoviesByUser(Authentication authentication) {
+    public ResponseEntity<List<Movie>> getUserMovies(Authentication authentication) {
         String username = authentication.getName();
         Optional<Account> account = accountService.getAccountByUsername(username);
 
         if (account.isPresent()) {
             Long id = account.get().getId();
-            return ResponseEntity.ok(movieService.getMoviesById(id));
+
+            return ResponseEntity.ok(movieService.getUserMovies(id));
         }
+
         return ResponseEntity.badRequest().build();
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ResponseEntity<String> handle(Exception e) {
-//        System.out.println("Returning HTTP 400 Bad Request" + e);
-//        return ResponseEntity.status(400).build();
-//    }
 }

@@ -1,6 +1,7 @@
 package net.mjduncan.watchlist.server.service;
 
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
+import net.mjduncan.watchlist.server.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,10 @@ public class OmdbService {
     public ResponseEntity<SearchResults> searchMoviesByTitle(String movieTitle) {
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
         return restTemplate.getForEntity(url, SearchResults.class);
+    }
+
+    public ResponseEntity<Movie> searchMoviesByID(String imdbID) {
+        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID;
+        return restTemplate.getForEntity(url, Movie.class);
     }
 }

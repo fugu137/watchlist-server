@@ -8,8 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -38,25 +40,39 @@ public class MovieServiceTest {
     }
 
     @Test
-    void shouldAddMovieByUserId() {
+    void shouldAddUserMovieByImdbId() {
         String movieId = "tt0780504";
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, "Drive");
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
         Movie movie = addMovieRequest.toMovie();
         Long userId = 333L;
 
-        movieService.addMovieById(userId, addMovieRequest);
+        movieService.addUserMovie(userId, movie);
 
         verify(movieMapper, times(1)).insertMovie(movie);
         verify(movieMapper, times(1)).insertMovieByUserId(userId, movieId);
     }
 
     @Test
-    void shouldGetMoviesById() {
+    void shouldGetUserMovieByImdbId() {
+        String imdbId = "tt0780504";
+        Long userId = 10L;
+        Movie movie = new Movie(imdbId, "Test Movie", 1900);
+
+        when(movieMapper.findById(userId, imdbId)).thenReturn(Optional.of(movie));
+        Optional<Movie> result = movieService.getUserMovieByImdbId(userId, imdbId);
+
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), is(movie));
+        verify(movieMapper).findById(userId, imdbId);
+    }
+
+    @Test
+    void shouldGetUserMoviesByUserId() {
         List<Movie> movies = List.of(new Movie("1", "Drive"), new Movie("2", "True Grit"));
         Long userId = 10L;
 
         when(movieMapper.findAllById(userId)).thenReturn(movies);
-        List<Movie> results = movieService.getMoviesById(userId);
+        List<Movie> results = movieService.getUserMovies(userId);
 
         assertThat(results, is(movies));
         verify(movieMapper).findAllById(userId);

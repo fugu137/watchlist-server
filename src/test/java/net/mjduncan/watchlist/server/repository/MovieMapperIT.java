@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -43,6 +44,16 @@ public class MovieMapperIT {
     }
 
     @Test
+    void shouldFindMovieById() {
+        Movie gladiator = new Movie("tt0172495", "Gladiator");
+
+        Optional<Movie> result = movieMapper.findById(1L, "tt0172495");
+
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), is(gladiator));
+    }
+
+    @Test
     void shouldInsertMovie() {
         Movie movie = new Movie("tt0780504", "Drive");
 
@@ -55,18 +66,18 @@ public class MovieMapperIT {
         assertThat(resultsAfter, hasItem(movie));
     }
 
-    @Test
-    void shouldInsertMovieByUserId() {
-        Movie movie = new Movie("tt0780504", "Drive");
-        Long userId = 1L;
-
-        movieMapper.insertMovie(movie);
-        String movieId = movie.getImdbID();
-        assertNotNull(movieId);
-
-        movieMapper.insertMovieByUserId(userId, movieId);
-
-        List<Movie> results = movieMapper.findAllById(userId);
-        assertThat(results, hasItem(movie));
-    }
+//    @Test
+//    void shouldInsertMovieByUserId() {
+//        Movie movie = new Movie("tt0780504", "Drive");
+//        Long userId = 1L;
+//
+//        movieMapper.insertMovie(movie);
+//        String movieId = movie.getImdbID();
+//        assertNotNull(movieId);
+//
+//        movieMapper.insertMovieByUserId(userId, movieId);
+//
+//        List<Movie> results = movieMapper.findAllById(userId);
+//        assertThat(results, hasItem(movie));
+//    }
 }

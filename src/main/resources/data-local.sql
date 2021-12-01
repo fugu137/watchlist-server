@@ -9,32 +9,32 @@ INSERT INTO accounts (username, password, role)
 
 
 --Movies--
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt0172495', 'Gladiator')
-    ON CONFLICT DO NOTHING;
-
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt0078748', 'Alien')
-    ON CONFLICT DO NOTHING;
-
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt1748122', 'Moonrise Kingdom')
-    ON CONFLICT DO NOTHING;
-
-
---Accounts_Movies--
-INSERT INTO accounts_movies
-    VALUES(1, 'tt0172495')
-    ON CONFLICT DO NOTHING;
-
-INSERT INTO accounts_movies
-    VALUES(1, 'tt0078748')
-    ON CONFLICT DO NOTHING;
-
-INSERT INTO accounts_movies
-    VALUES(1, 'tt1748122')
-    ON CONFLICT DO NOTHING;
-
-INSERT INTO accounts_movies
-    VALUES(2, 'tt1748122')
-    ON CONFLICT DO NOTHING;
+--INSERT INTO movies (imdb_id, title)
+--    VALUES ('tt0172495', 'Gladiator')
+--    ON CONFLICT DO NOTHING;
+--
+--INSERT INTO movies (imdb_id, title)
+--    VALUES ('tt0078748', 'Alien')
+--    ON CONFLICT DO NOTHING;
+--
+--INSERT INTO movies (imdb_id, title)
+--    VALUES ('tt1748122', 'Moonrise Kingdom')
+--    ON CONFLICT DO NOTHING;
+--
+--
+----Accounts_Movies--
+--INSERT INTO accounts_movies
+--    VALUES(1, 'tt0172495')
+--    ON CONFLICT DO NOTHING;
+--
+--INSERT INTO accounts_movies
+--    VALUES(1, 'tt0078748')
+--    ON CONFLICT DO NOTHING;
+--
+--INSERT INTO accounts_movies
+--    VALUES(1, 'tt1748122')
+--    ON CONFLICT DO NOTHING;
+--
+--INSERT INTO accounts_movies
+--    VALUES(2, 'tt1748122')
+--    ON CONFLICT DO NOTHING;

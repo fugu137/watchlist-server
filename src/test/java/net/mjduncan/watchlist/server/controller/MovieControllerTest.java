@@ -1,6 +1,5 @@
 package net.mjduncan.watchlist.server.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
@@ -8,15 +7,16 @@ import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.service.AccountService;
 import net.mjduncan.watchlist.server.service.MovieService;
+import net.mjduncan.watchlist.server.service.OmdbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,9 @@ public class MovieControllerTest {
 
     @MockBean
     private MovieService movieService;
+
+    @MockBean
+    private OmdbService omdbService;
 
     @MockBean
     private AccountService accountService;
@@ -72,19 +75,22 @@ public class MovieControllerTest {
 
     @Test
     @WithMockUser(username = "Jacqueline")
-    void shouldAddMovieById() throws Exception {
+    void shouldAddMovie() throws Exception {
         String username = "Jacqueline";
-        Long id = 233L;
+        Long userId = 233L;
 
         Account account = new Account(username, "password");
-        account.setId(id);
+        account.setId(userId);
 
-        String movieName = "Adventureland";
         String movieId = "tt1091722";
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, movieName);
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
+        Movie movie = addMovieRequest.toMovie();
+
         String jsonRequest = new ObjectMapper().writeValueAsString(addMovieRequest);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
+        when(movieService.getUserMovieByImdbId(userId, movieId)).thenReturn(Optional.empty());
+        when(omdbService.searchMoviesByID(movieId)).thenReturn(ResponseEntity.ok(movie));
 
         mockMvc.perform(post("/movies")
                         .with(csrf().asHeader())
@@ -92,17 +98,16 @@ public class MovieControllerTest {
                         .content(jsonRequest))
                 .andExpect(status().isOk());
 
-        verify(movieService, times(1)).addMovieById(id, addMovieRequest);
+        verify(movieService, times(1)).addUserMovie(userId, movie);
     }
 
     @Test
     @WithMockUser(username = "Jacqueline")
-    void shouldNotAddMovieByIdIfUserAccountDoesNotExist() throws Exception {
+    void shouldNotAddMovieIfUserAccountDoesNotExist() throws Exception {
         String username = "Jacqueline";
         String movieId = "tt1091722";
-        String movieName = "Adventureland";
 
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId, movieName);
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
         String jsonRequest = new ObjectMapper().writeValueAsString(addMovieRequest);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.empty());
@@ -127,7 +132,7 @@ public class MovieControllerTest {
         String moviesAsJson = new ObjectMapper().writeValueAsString(movies);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
-        when(movieService.getMoviesById(id)).thenReturn(movies);
+        when(movieService.getUserMovies(id)).thenReturn(movies);
 
         mockMvc.perform(get("/movies")
                         .with(csrf().asHeader())
@@ -135,7 +140,7 @@ public class MovieControllerTest {
                 .andExpect(status().isOk())
                .andExpect(content().json(moviesAsJson));
 
-        verify(movieService, times(1)).getMoviesById(id);
+        verify(movieService, times(1)).getUserMovies(id);
         verify(accountService, times(1)).getAccountByUsername(username);
     }
 
@@ -153,7 +158,7 @@ public class MovieControllerTest {
                 .andExpect(status().isBadRequest())
                .andExpect(content().string(""));
 
-        verify(movieService, times(0)).getMoviesById(id);
+        verify(movieService, times(0)).getUserMovies(id);
         verify(accountService, times(1)).getAccountByUsername(username);
     }
 

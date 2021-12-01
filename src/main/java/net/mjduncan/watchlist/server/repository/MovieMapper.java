@@ -4,6 +4,7 @@ import net.mjduncan.watchlist.server.model.Movie;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Mapper
@@ -23,6 +24,14 @@ public interface MovieMapper {
             @Result(property = "title", column = "title"),
     })
     List<Movie> findAllById(Long userId);
+
+
+    @Select("SELECT movies.imdb_id, movies.title FROM accounts_movies INNER JOIN movies ON movie_id = movies.imdb_id WHERE account_id = #{userId} AND imdb_id = #{movieId}")
+    @Results({
+            @Result(property = "imdbID", column = "imdb_id", id = true),
+            @Result(property = "title", column = "title"),
+    })
+    Optional<Movie> findById(Long userId, String movieId);
 
 
     @Insert("INSERT INTO movies (imdb_id, title) VALUES (#{imdbID}, #{title})")
