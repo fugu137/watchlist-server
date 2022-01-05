@@ -84,12 +84,12 @@ public class MovieControllerTest {
 
         String movieId = "tt1091722";
         AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
-        Movie movie = addMovieRequest.toMovie();
+        Movie movie = new Movie(addMovieRequest.getImdbID());
 
         String jsonRequest = new ObjectMapper().writeValueAsString(addMovieRequest);
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
-        when(movieService.getUserMovieByImdbId(userId, movieId)).thenReturn(Optional.empty());
+        when(movieService.getUserMovieByImdbID(userId, movieId)).thenReturn(Optional.empty());
         when(omdbService.searchMoviesByID(movieId)).thenReturn(ResponseEntity.ok(movie));
 
         mockMvc.perform(post("/movies")

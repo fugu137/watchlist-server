@@ -1,7 +1,7 @@
 package net.mjduncan.watchlist.server.controller.dto;
 
 
-import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.MovieSearchResult;
 
 import java.util.Objects;
 
@@ -22,10 +22,6 @@ public class AddMovieRequest {
 
     public void setImdbId(String imdbID) {
         this.imdbID = imdbID;
-    }
-
-    public Movie toMovie() {
-        return new Movie(imdbID);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package net.mjduncan.watchlist.server.controller;
 
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
+import net.mjduncan.watchlist.server.model.MovieSearchResult;
 import net.mjduncan.watchlist.server.model.Movie;
-import net.mjduncan.watchlist.server.model.MovieWithDetails;
 import net.mjduncan.watchlist.server.service.OmdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +23,12 @@ public class OmdbController {
     private OmdbService omdbService;
 
     @GetMapping
-    public ResponseEntity<List<Movie>> searchMoviesByTitle(@RequestParam String movieTitle) {
+    public ResponseEntity<List<MovieSearchResult>> searchMoviesByTitle(@RequestParam String movieTitle) {
         ResponseEntity<SearchResults> response = omdbService.searchMoviesByTitle(movieTitle);
         HttpStatus status = response.getStatusCode();
 
         if (status.is2xxSuccessful() && response.getBody() != null) {
-            List<Movie> movies = response.getBody().getMovies();
+            List<MovieSearchResult> movies = response.getBody().getSearchResults();
             return ResponseEntity.ok(movies);
         }
 
@@ -36,7 +36,7 @@ public class OmdbController {
     }
 
     @GetMapping("/{imdbId}")
-    public ResponseEntity<MovieWithDetails> getMovieInfo(@PathVariable String imdbID) {
+    public ResponseEntity<Movie> getMovieInfo(@PathVariable String imdbID) {
         //TODO: implement
         return null;
     }

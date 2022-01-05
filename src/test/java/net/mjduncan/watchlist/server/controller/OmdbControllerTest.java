@@ -3,7 +3,7 @@ package net.mjduncan.watchlist.server.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
-import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.MovieSearchResult;
 import net.mjduncan.watchlist.server.service.OmdbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +41,11 @@ public class OmdbControllerTest {
     @WithMockUser
     void shouldImportMoviesIfApiCallSuccessful() throws Exception {
         String param = "movieTitle";
-        List<Movie> movies = List.of(new Movie("1", "Gone Girl"), new Movie("2", "Team America"));
+        List<MovieSearchResult> movies = List.of(new MovieSearchResult("1", "Gone Girl"), new MovieSearchResult("2", "Team America"));
 
         SearchResults searchResults = new SearchResults();
-        searchResults.setMovies(movies);
-        String resultsAsJson = new ObjectMapper().writeValueAsString(searchResults.getMovies());
+        searchResults.setSearchResults(movies);
+        String resultsAsJson = new ObjectMapper().writeValueAsString(searchResults.getSearchResults());
 
         when(omdbService.searchMoviesByTitle(param)).thenReturn(ResponseEntity.ok(searchResults));
 

@@ -43,7 +43,7 @@ public class MovieController {
             Long userID = account.get().getId();
             String imdbID = addMovieRequest.getImdbID();
 
-            Optional<Movie> movieToFind = movieService.getUserMovieByImdbId(userID, imdbID);
+            Optional<Movie> movieToFind = movieService.getUserMovieByImdbID(userID, imdbID);
 
             if (movieToFind.isPresent()) {
                 return ResponseEntity.status(409).build();

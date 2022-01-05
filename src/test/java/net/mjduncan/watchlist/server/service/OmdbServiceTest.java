@@ -1,9 +1,8 @@
 package net.mjduncan.watchlist.server.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.MovieSearchResult;
 import net.mjduncan.watchlist.server.controller.dto.SearchResults;
-import net.mjduncan.watchlist.server.model.MovieWithDetails;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,8 +30,8 @@ public class OmdbServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    private String omdbBaseUrl = "http://www.omdbapi.com";
-    private String omdbApiKey = "12345";
+    private final String omdbBaseUrl = "http://www.omdbapi.com";
+    private final String omdbApiKey = "12345";
 
     private final String titleSearchPrefix = "&s=";
     private final String idSearchPrefix = "&i=";
@@ -44,14 +43,14 @@ public class OmdbServiceTest {
         ReflectionTestUtils.setField(omdbService, "omdbApiKey", omdbApiKey);
 
         String movieTitle = "Dog";
-        List<Movie> movies = List.of(new Movie("1", "Dog Day Afternoon"), new Movie("2", "Donnie Darko"));
+        List<MovieSearchResult> movies = List.of(new MovieSearchResult("1", "Dog Day Afternoon"), new MovieSearchResult("2", "Donnie Darko"));
         SearchResults searchResults = new SearchResults();
-        searchResults.setMovies(movies);
+        searchResults.setSearchResults(movies);
 
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
         when(restTemplate.getForEntity(url, SearchResults.class)).thenReturn(ResponseEntity.ok(searchResults));
 
-        List<Movie> results = omdbService.searchMoviesByTitle(movieTitle).getBody().getMovies();
+        List<MovieSearchResult> results = omdbService.searchMoviesByTitle(movieTitle).getBody().getSearchResults();
 
         assertThat(results, is(movies));
         verify(restTemplate).getForEntity(url, SearchResults.class);

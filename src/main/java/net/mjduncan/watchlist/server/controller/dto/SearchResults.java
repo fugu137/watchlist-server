@@ -1,8 +1,7 @@
 package net.mjduncan.watchlist.server.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.mjduncan.watchlist.server.model.Movie;
+import net.mjduncan.watchlist.server.model.MovieSearchResult;
 
 import java.util.List;
 
@@ -10,19 +9,19 @@ import java.util.List;
 public class SearchResults {
 
     @JsonProperty("Search")
-    private List<Movie> movies;
+    private List<MovieSearchResult> searchResults;
 
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<MovieSearchResult> getSearchResults() {
+        return searchResults;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setSearchResults(List<MovieSearchResult> searchResults) {
+        this.searchResults = searchResults;
     }
 
     @Override
     public String toString() {
-        return movies.toString();
+        return searchResults.toString();
     }
 }
