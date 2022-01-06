@@ -9,16 +9,16 @@ INSERT INTO accounts (username, password, role)
 
 
 --Movies--
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt0172495', 'Gladiator')
+INSERT INTO movies (imdb_id, title, year, imdb_rating)
+    VALUES ('tt0172495', 'Gladiator', 2001, '8.8/10')
     ON CONFLICT DO NOTHING;
 
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt0078748', 'Alien')
+INSERT INTO movies (imdb_id, title, year, imdb_rating)
+    VALUES ('tt0078748', 'Alien', 1989, '9/10')
     ON CONFLICT DO NOTHING;
 
-INSERT INTO movies (imdb_id, title)
-    VALUES ('tt1748122', 'Moonrise Kingdom')
+INSERT INTO movies (imdb_id, title, year, imdb_rating)
+    VALUES ('tt1748122', 'Moonrise Kingdom', 2007, '8.6/10')
     ON CONFLICT DO NOTHING;
 
 

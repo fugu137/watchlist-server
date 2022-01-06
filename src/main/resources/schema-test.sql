@@ -16,7 +16,10 @@ CREATE TABLE accounts (
 
 CREATE TABLE movies (
     imdb_id VARCHAR(10) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL
+    title VARCHAR(255) NOT NULL,
+    year SMALLINT,
+    imdb_rating VARCHAR(10),
+    tomatoes_rating VARCHAR(10)
 );
 
 CREATE TABLE accounts_movies (

@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,9 +51,12 @@ public class OmdbServiceTest {
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
         when(restTemplate.getForEntity(url, SearchResults.class)).thenReturn(ResponseEntity.ok(searchResults));
 
-        List<MovieSearchResult> results = omdbService.searchMoviesByTitle(movieTitle).getBody().getSearchResults();
+        SearchResults results = omdbService.searchMoviesByTitle(movieTitle).getBody();
+        assertNotNull(results);
 
-        assertThat(results, is(movies));
+        List<MovieSearchResult> parsedResults = results.getSearchResults();
+
+        assertThat(parsedResults, is(movies));
         verify(restTemplate).getForEntity(url, SearchResults.class);
     }
 

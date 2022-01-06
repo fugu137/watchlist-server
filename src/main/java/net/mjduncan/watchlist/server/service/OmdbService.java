@@ -36,6 +36,7 @@ public class OmdbService {
     }
 
     public ResponseEntity<Movie> searchMoviesByID(String imdbID) {
+        System.out.println("Contacting OMDB");
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID;
         return restTemplate.getForEntity(url, Movie.class);
     }

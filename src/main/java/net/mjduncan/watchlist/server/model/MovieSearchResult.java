@@ -11,7 +11,7 @@ public class MovieSearchResult {
 
     private String imdbID;
     private String title;
-    private int year;
+    private Integer year;
 
     public MovieSearchResult() {}
 
@@ -24,7 +24,7 @@ public class MovieSearchResult {
         this.title = title;
     }
 
-    public MovieSearchResult(String imdbID, String title, int year) {
+    public MovieSearchResult(String imdbID, String title, Integer year) {
         this.imdbID = imdbID;
         this.title = title;
         this.year = year;
@@ -49,7 +49,7 @@ public class MovieSearchResult {
     }
 
     @JsonProperty("year")
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -63,7 +63,7 @@ public class MovieSearchResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MovieSearchResult that = (MovieSearchResult) o;
-        return year == that.year && imdbID.equals(that.imdbID) && Objects.equals(title, that.title);
+        return imdbID.equals(that.imdbID) && title.equals(that.title) && Objects.equals(year, that.year);
     }
 
     @Override
