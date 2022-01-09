@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS movies (
     year SMALLINT,
     imdb_rating VARCHAR(10),
     tomatoes_rating VARCHAR(10),
-    metacritic_rating VARCHAR(10)
+    metacritic_rating VARCHAR(10),
+    poster_url VARCHAR(155)
 );
 
 CREATE TABLE IF NOT EXISTS accounts_movies (

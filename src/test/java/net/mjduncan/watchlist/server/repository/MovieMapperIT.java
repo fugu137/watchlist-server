@@ -42,9 +42,12 @@ public class MovieMapperIT {
 
         Optional<Movie> result = results.stream().filter(m -> m.equals(movie)).findFirst();
         assertThat(result.isPresent(), is(true));
+
         assertThat(result.get().getImdbRating(), is("8.8/10"));
         assertThat(result.get().getTomatoesRating(), is("82%"));
         assertThat(result.get().getMetacriticRating(), is("80%"));
+
+        assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
     }
 
     @Test
@@ -72,9 +75,12 @@ public class MovieMapperIT {
 
         Optional<Movie> result = results.stream().filter(m -> m.equals(gladiator)).findFirst();
         assertThat(result.isPresent(), is(true));
+
         assertThat(result.get().getImdbRating(), is("8.8/10"));
         assertThat(result.get().getTomatoesRating(), is("82%"));
         assertThat(result.get().getMetacriticRating(), is("80%"));
+
+        assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
     }
 
     @Test
@@ -95,9 +101,12 @@ public class MovieMapperIT {
 
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(gladiator));
+
         assertThat(result.get().getImdbRating(), is("8.8/10"));
         assertThat(result.get().getTomatoesRating(), is("82%"));
         assertThat(result.get().getMetacriticRating(), is("80%"));
+
+        assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
     }
 
     @Test
@@ -122,6 +131,7 @@ public class MovieMapperIT {
         movie.setRatings(List.of(new Rating("Rotten Tomatoes", "82%")));
         movie.setImdbRating("8.5");
         movie.setMetacriticRating("70%");
+        movie.setPosterURL("www.drive_poster_url.com");
 
         List<Movie> resultsBefore = movieMapper.findAllMovies();
         assertThat(resultsBefore, not(hasItem(movie)));
@@ -133,9 +143,12 @@ public class MovieMapperIT {
 
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(movie));
+
         assertThat(result.get().getImdbRating(), is("8.5"));
         assertThat(result.get().getTomatoesRating(), is("82%"));
         assertThat(result.get().getMetacriticRating(), is("70%"));
+
+        assertThat(result.get().getPosterURL(), is("www.drive_poster_url.com"));
     }
 
     @Test
@@ -165,6 +178,7 @@ public class MovieMapperIT {
         movie.setRatings(List.of(new Rating("Rotten Tomatoes", "88%")));
         movie.setImdbRating("8.2");
         movie.setMetacriticRating("70%");
+        movie.setPosterURL("www.drive_poster_url.com");
 
         movieMapper.insertMovie(movie);
         movieMapper.insertUserMovie(userId, movieId);
@@ -174,9 +188,12 @@ public class MovieMapperIT {
 
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(movie));
+
         assertThat(result.get().getImdbRating(), is("8.2"));
         assertThat(result.get().getTomatoesRating(), is("88%"));
         assertThat(result.get().getMetacriticRating(), is("70%"));
+
+        assertThat(result.get().getPosterURL(), is("www.drive_poster_url.com"));
     }
 
     @Test
@@ -217,8 +234,11 @@ public class MovieMapperIT {
         Optional<Movie> result = results.stream().filter(m -> m.getImdbID().equals(alien.getImdbID())).findFirst();
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(alien));
+
         assertThat(result.get().getImdbRating(), is("9/10"));
         assertThat(result.get().getTomatoesRating(), is("92%"));
         assertThat(result.get().getMetacriticRating(), is("88%"));
+
+        assertThat(result.get().getPosterURL(), is("www.alien_poster_url.com"));
     }
 }

@@ -20,7 +20,8 @@ CREATE TABLE movies (
     year SMALLINT,
     imdb_rating VARCHAR(10),
     tomatoes_rating VARCHAR(10),
-    metacritic_rating VARCHAR(10)
+    metacritic_rating VARCHAR(10),
+    poster_url VARCHAR(155)
 );
 
 CREATE TABLE accounts_movies (

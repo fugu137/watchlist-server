@@ -12,6 +12,7 @@ public class Movie extends MovieSearchResult {
     private String imdbRating;
     private String tomatoesRating;
     private String metacriticRating;
+    private String posterURL;
 
     public Movie() {
     }
@@ -69,11 +70,22 @@ public class Movie extends MovieSearchResult {
         this.metacriticRating = metacriticRating;
     }
 
+    @JsonProperty("posterURL")
+    public String getPosterURL() {
+        return posterURL;
+    }
+
+    @JsonProperty("Poster")
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
+    }
+
     @Override
     public String toString() {
         return super.toString()
                 + ", imdbRating: " + imdbRating
                 + ", tomatoesRating: " + tomatoesRating
-                + ", metacriticRating: " + metacriticRating;
+                + ", metacriticRating: " + metacriticRating
+                + ", posterURL: " + posterURL;
     }
 }
