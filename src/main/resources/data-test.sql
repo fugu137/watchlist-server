@@ -9,16 +9,16 @@ INSERT INTO accounts (username, password, role)
 
 
 --Movies--
-INSERT INTO movies (imdb_id, title, year, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
-    VALUES ('tt0172495', 'Gladiator', 2001, '8.8/10', '82%', '80%', 'www.gladiator_poster_url.com')
+INSERT INTO movies (imdb_id, title, year, synopsis, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
+    VALUES ('tt0172495', 'Gladiator', 2001, 'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.', '8.8/10', '82%', '80%', 'www.gladiator_poster_url.com')
     ON CONFLICT DO NOTHING;
 
-INSERT INTO movies (imdb_id, title, year, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
-    VALUES ('tt0078748', 'Alien', 1989, '9/10', '92%', '88%', 'www.alien_poster_url.com')
+INSERT INTO movies (imdb_id, title, year, synopsis, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
+    VALUES ('tt0078748', 'Alien', 1989, 'After a space merchant vessel receives an unknown transmission as a distress call, one of the crew is attacked by a mysterious life form and they soon realize that its life cycle has merely begun.', '9/10', '92%', '88%', 'www.alien_poster_url.com')
     ON CONFLICT DO NOTHING;
 
-INSERT INTO movies (imdb_id, title, year, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
-    VALUES ('tt1748122', 'Moonrise Kingdom', 2007, '8.6/10', '87%', '80%', 'www.moonrisekingdorm_poster_url.com')
+INSERT INTO movies (imdb_id, title, year, synopsis, imdb_rating, tomatoes_rating, metacritic_rating, poster_url)
+    VALUES ('tt1748122', 'Moonrise Kingdom', 2007, 'A pair of young lovers flee their New England town, which causes a local search party to fan out to find them.', '8.6/10', '87%', '80%', 'www.moonrisekingdorm_poster_url.com')
     ON CONFLICT DO NOTHING;
 
 

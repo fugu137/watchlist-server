@@ -48,6 +48,7 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("80%"));
 
         assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is("A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery."));
     }
 
     @Test
@@ -81,6 +82,7 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("80%"));
 
         assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is("A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery."));
     }
 
     @Test
@@ -107,6 +109,7 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("80%"));
 
         assertThat(result.get().getPosterURL(), is("www.gladiator_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is("A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery."));
     }
 
     @Test
@@ -127,11 +130,14 @@ public class MovieMapperIT {
 
     @Test
     void shouldInsertMovieWithAdditionalProperties() {
+        String synopsis = "This is a test synopsis for Drive.";
+
         Movie movie = new Movie("tt0780504", "Drive", 2010);
         movie.setRatings(List.of(new Rating("Rotten Tomatoes", "82%")));
         movie.setImdbRating("8.5");
         movie.setMetacriticRating("70%");
         movie.setPosterURL("www.drive_poster_url.com");
+        movie.setSynopsis(synopsis);
 
         List<Movie> resultsBefore = movieMapper.findAllMovies();
         assertThat(resultsBefore, not(hasItem(movie)));
@@ -149,6 +155,7 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("70%"));
 
         assertThat(result.get().getPosterURL(), is("www.drive_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is(synopsis));
     }
 
     @Test
@@ -173,12 +180,14 @@ public class MovieMapperIT {
     void shouldInsertUserMovieByIdWithAdditionalProperties() {
         Long userId = 1L;
         String movieId = "tt0780504";
+        String synopsis = "This is a test synopsis for Drive.";
 
         Movie movie = new Movie(movieId, "Drive", 2010);
         movie.setRatings(List.of(new Rating("Rotten Tomatoes", "88%")));
         movie.setImdbRating("8.2");
         movie.setMetacriticRating("70%");
         movie.setPosterURL("www.drive_poster_url.com");
+        movie.setSynopsis(synopsis);
 
         movieMapper.insertMovie(movie);
         movieMapper.insertUserMovie(userId, movieId);
@@ -194,11 +203,12 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("70%"));
 
         assertThat(result.get().getPosterURL(), is("www.drive_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is(synopsis));
     }
 
     @Test
     void shouldFindAllMoviesSortedByYear() {
-        Movie alien = new Movie("tt0078748", "Alien", 1989 );
+        Movie alien = new Movie("tt0078748", "Alien", 1989);
         Movie gladiator = new Movie("tt0172495", "Gladiator", 2001);
         Movie moonriseKingdom = new Movie("tt1748122", "Moonrise Kingdom", 2007);
 
@@ -222,7 +232,7 @@ public class MovieMapperIT {
 
     @Test
     void shouldFindAllMoviesSortedWithAdditionalProperties() {
-        Movie alien = new Movie("tt0078748", "Alien", 1989 );
+        Movie alien = new Movie("tt0078748", "Alien", 1989);
         Movie gladiator = new Movie("tt0172495", "Gladiator", 2001);
         Movie moonriseKingdom = new Movie("tt1748122", "Moonrise Kingdom", 2007);
 
@@ -240,5 +250,6 @@ public class MovieMapperIT {
         assertThat(result.get().getMetacriticRating(), is("88%"));
 
         assertThat(result.get().getPosterURL(), is("www.alien_poster_url.com"));
+        assertThat(result.get().getSynopsis(), is("After a space merchant vessel receives an unknown transmission as a distress call, one of the crew is attacked by a mysterious life form and they soon realize that its life cycle has merely begun."));
     }
 }

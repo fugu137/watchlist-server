@@ -1,6 +1,5 @@
 package net.mjduncan.watchlist.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,6 +8,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie extends MovieSearchResult {
 
+    private String synopsis;
     private String imdbRating;
     private String tomatoesRating;
     private String metacriticRating;
@@ -27,6 +27,16 @@ public class Movie extends MovieSearchResult {
 
     public Movie(String imdbID, String title, int year) {
         super(imdbID, title, year);
+    }
+
+    @JsonProperty("synopsis")
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    @JsonProperty("Plot")
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
     @JsonProperty("Ratings")

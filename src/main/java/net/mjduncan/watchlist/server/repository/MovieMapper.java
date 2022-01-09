@@ -17,6 +17,7 @@ public interface MovieMapper {
             @Result(property = "imdbID", column = "imdb_id", id = true),
             @Result(property = "title", column = "title"),
             @Result(property = "year", column = "year"),
+            @Result(property = "synopsis", column = "synopsis"),
             @Result(property = "imdbRating", column = "imdb_rating"),
             @Result(property = "tomatoesRating", column = "tomatoes_rating"),
             @Result(property = "metacriticRating", column = "metacritic_rating"),
@@ -38,13 +39,14 @@ public interface MovieMapper {
     List<Movie> findAllMoviesSortedBy(SortColumn sortColumn, SortOrder sortOrder);
 
 
-    @Select("SELECT movies.imdb_id, movies.title, movies.year, movies.imdb_rating, movies.tomatoes_rating, movies.metacritic_rating, movies.poster_url " +
+    @Select("SELECT movies.imdb_id, movies.title, movies.year, movies.synopsis, movies.imdb_rating, movies.tomatoes_rating, movies.metacritic_rating, movies.poster_url " +
             "FROM accounts_movies INNER JOIN movies ON movie_id = movies.imdb_id " +
             "WHERE account_id = #{userId}")
     @Results({
             @Result(property = "imdbID", column = "imdb_id", id = true),
             @Result(property = "title", column = "title"),
             @Result(property = "year", column = "year"),
+            @Result(property = "synopsis", column = "synopsis"),
             @Result(property = "imdbRating", column = "imdb_rating"),
             @Result(property = "tomatoesRating", column = "tomatoes_rating"),
             @Result(property = "metacriticRating", column = "metacritic_rating"),
@@ -53,13 +55,14 @@ public interface MovieMapper {
     List<Movie> findAllUserMovies(Long userId);
 
 
-    @Select("SELECT movies.imdb_id, movies.title, movies.year, movies.imdb_rating, movies.tomatoes_rating, movies.metacritic_rating, movies.poster_url " +
+    @Select("SELECT movies.imdb_id, movies.title, movies.year, movies.synopsis, movies.imdb_rating, movies.tomatoes_rating, movies.metacritic_rating, movies.poster_url " +
             "FROM accounts_movies INNER JOIN movies ON movie_id = movies.imdb_id " +
             "WHERE account_id = #{userId} AND imdb_id = #{movieId}")
     @Results({
             @Result(property = "imdbID", column = "imdb_id", id = true),
             @Result(property = "title", column = "title"),
             @Result(property = "year", column = "year"),
+            @Result(property = "synopsis", column = "synopsis"),
             @Result(property = "imdbRating", column = "imdb_rating"),
             @Result(property = "tomatoesRating", column = "tomatoes_rating"),
             @Result(property = "metacriticRating", column = "metacritic_rating"),
@@ -68,8 +71,8 @@ public interface MovieMapper {
     Optional<Movie> findUserMovieById(Long userId, String movieId);
 
 
-    @Insert("INSERT INTO movies (imdb_id, title, year, imdb_rating, tomatoes_rating, metacritic_rating, poster_url) " +
-            "VALUES (#{imdbID}, #{title}, #{year}, #{imdbRating}, #{tomatoesRating}, #{metacriticRating}, #{posterURL})")
+    @Insert("INSERT INTO movies (imdb_id, title, year, synopsis, imdb_rating, tomatoes_rating, metacritic_rating, poster_url) " +
+            "VALUES (#{imdbID}, #{title}, #{year}, #{synopsis}, #{imdbRating}, #{tomatoesRating}, #{metacriticRating}, #{posterURL})")
     void insertMovie(Movie movie);
 
 
