@@ -138,7 +138,7 @@ public class MovieControllerTest {
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-               .andExpect(content().json(moviesAsJson));
+                .andExpect(content().json(moviesAsJson));
 
         verify(movieService, times(1)).getUserMovies(id);
         verify(accountService, times(1)).getAccountByUsername(username);
@@ -156,7 +156,7 @@ public class MovieControllerTest {
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-               .andExpect(content().string(""));
+                .andExpect(content().string(""));
 
         verify(movieService, times(0)).getUserMovies(id);
         verify(accountService, times(1)).getAccountByUsername(username);

@@ -31,8 +31,6 @@ public class Movie extends MovieSearchResult {
     @JsonProperty("Ratings")
     public void setRatings(List<Rating> ratings) {
         ratings.forEach(rating -> {
-            System.out.println("Rating: " + rating);
-            System.out.println("IMDB current: " + imdbRating);
             switch (rating.getSource()) {
                 case "Internet Movie Database":
                     // not needed because imdbRating exists elsewhere
