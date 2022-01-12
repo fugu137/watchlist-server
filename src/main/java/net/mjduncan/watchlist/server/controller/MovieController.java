@@ -76,4 +76,23 @@ public class MovieController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @PostMapping("/remove")
+    public ResponseEntity<String> removeUserMovie(@RequestBody String imdbID, Authentication authentication) {
+        if (imdbID == null || imdbID.equals("")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String username = authentication.getName();
+        Optional<Account> account = accountService.getAccountByUsername(username);
+
+        if (account.isPresent()) {
+            Long id = account.get().getId();
+
+            movieService.removeUserMovie(id, imdbID);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }

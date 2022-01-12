@@ -162,4 +162,67 @@ public class MovieControllerTest {
         verify(accountService, times(1)).getAccountByUsername(username);
     }
 
+    @Test
+    @WithMockUser(username = "Michael")
+    void shouldDeleteMoviesByUser() throws Exception {
+        String username = "Michael";
+        Long id = 133L;
+        String imdbID = "jb12345";
+
+        Account account = new Account(username, "password");
+        account.setId(id);
+
+        when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
+
+        mockMvc.perform(post("/movies/remove")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(imdbID))
+                .andExpect(status().isOk());
+
+        verify(accountService, times(1)).getAccountByUsername(username);
+        verify(movieService, times(1)).removeUserMovie(id, imdbID);
+    }
+
+    @Test
+    @WithMockUser(username = "Michael")
+    void shouldNotDeleteMoviesByUserIfUserAccountDoesNotExist() throws Exception {
+        String username = "Michael";
+        Long id = 133L;
+        String imdbID = "jb12345";
+
+        when(accountService.getAccountByUsername(username)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/movies")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(""));
+
+        verify(accountService, times(1)).getAccountByUsername(username);
+        verify(movieService, times(0)).removeUserMovie(id, imdbID);
+    }
+
+    @Test
+    @WithMockUser(username = "Michael")
+    void shouldNoteDeleteMoviesByUserIfImdbIDisInvalid() throws Exception {
+        String username = "Michael";
+        Long id = 133L;
+        String imdbID = "";
+
+        Account account = new Account(username, "password");
+        account.setId(id);
+
+        when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
+
+        mockMvc.perform(post("/movies/remove")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(imdbID))
+                .andExpect(status().isBadRequest());
+
+        verify(accountService, times(0)).getAccountByUsername(username);
+        verify(movieService, times(0)).removeUserMovie(id, imdbID);
+    }
+
 }

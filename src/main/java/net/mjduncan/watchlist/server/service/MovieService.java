@@ -33,4 +33,7 @@ public class MovieService {
         return movieMapper.findAllUserMovies(userID);
     }
 
+    public void removeUserMovie(Long userID, String imdbID) {
+        movieMapper.removeUserMovie(userID, imdbID);
+    }
 }

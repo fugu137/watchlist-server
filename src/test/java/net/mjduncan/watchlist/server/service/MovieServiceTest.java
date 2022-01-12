@@ -77,4 +77,14 @@ public class MovieServiceTest {
         verify(movieMapper).findAllUserMovies(userId);
     }
 
+    @Test
+    void shouldRemoveUserMovie() {
+        Long userId = 333L;
+        String movieId = "tt0780504";
+
+        movieService.removeUserMovie(userId, movieId);
+
+        verify(movieMapper, times(1)).removeUserMovie(userId, movieId);
+    }
+
 }

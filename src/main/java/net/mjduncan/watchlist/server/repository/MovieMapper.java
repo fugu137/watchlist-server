@@ -78,4 +78,8 @@ public interface MovieMapper {
 
     @Insert("INSERT INTO accounts_movies (account_id, movie_id) VALUES (#{userId}, #{movieId})")
     void insertUserMovie(Long userId, String movieId);
+
+
+    @Delete("DELETE FROM accounts_movies WHERE account_id = #{userId} AND movie_id = #{movieId}")
+    void removeUserMovie(Long userId, String movieId);
 }

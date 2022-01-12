@@ -252,4 +252,22 @@ public class MovieMapperIT {
         assertThat(result.get().getPosterURL(), is("www.alien_poster_url.com"));
         assertThat(result.get().getSynopsis(), is("After a space merchant vessel receives an unknown transmission as a distress call, one of the crew is attacked by a mysterious life form and they soon realize that its life cycle has merely begun."));
     }
+
+    @Test
+    void shouldRemoveUserMovie() {
+        Long userID = 1L;
+        String imdbID = "tt0172495";
+
+        Movie gladiator = new Movie(imdbID, "Gladiator", 2001);
+
+        List<Movie> moviesBefore = movieMapper.findAllUserMovies(userID);
+        assertThat(moviesBefore.size(), is(3));
+        assertThat(moviesBefore, hasItem(gladiator));
+
+        movieMapper.removeUserMovie(userID, imdbID);
+
+        List<Movie> moviesAfter = movieMapper.findAllUserMovies(userID);
+        assertThat(moviesAfter.size(), is(2));
+        assertThat(moviesAfter, not(hasItem(gladiator)));
+    }
 }
