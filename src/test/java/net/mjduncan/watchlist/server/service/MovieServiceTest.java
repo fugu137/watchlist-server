@@ -52,6 +52,21 @@ public class MovieServiceTest {
     }
 
     @Test
+    void shouldNotAddMovieToGeneralDatabaseIfAlreadyExists() {
+        String movieId = "tt0172495";
+        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
+        Movie movie = new Movie(addMovieRequest.getImdbID());
+        Long userId = 1L;
+
+        when(movieMapper.findMovieById(movieId)).thenReturn(Optional.of(movie));
+
+        movieService.addUserMovie(userId, movie);
+
+        verify(movieMapper, times(0)).insertMovie(movie);
+        verify(movieMapper, times(1)).insertUserMovie(userId, movieId);
+    }
+
+    @Test
     void shouldGetUserMovieByImdbId() {
         String imdbId = "tt0780504";
         Long userId = 10L;

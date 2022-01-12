@@ -3,6 +3,7 @@ package net.mjduncan.watchlist.server.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mjduncan.watchlist.server.configuration.UserAccountDetailsService;
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
+import net.mjduncan.watchlist.server.controller.dto.RemoveMovieRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.service.AccountService;
@@ -174,10 +175,13 @@ public class MovieControllerTest {
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
 
+        RemoveMovieRequest removeMovieRequest = new RemoveMovieRequest(imdbID);
+        String jsonRequest = new ObjectMapper().writeValueAsString(removeMovieRequest);
+
         mockMvc.perform(post("/movies/remove")
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(imdbID))
+                        .content(jsonRequest))
                 .andExpect(status().isOk());
 
         verify(accountService, times(1)).getAccountByUsername(username);
@@ -193,9 +197,13 @@ public class MovieControllerTest {
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.empty());
 
+        RemoveMovieRequest removeMovieRequest = new RemoveMovieRequest(imdbID);
+        String jsonRequest = new ObjectMapper().writeValueAsString(removeMovieRequest);
+
         mockMvc.perform(get("/movies")
                         .with(csrf().asHeader())
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(""));
 
@@ -205,7 +213,7 @@ public class MovieControllerTest {
 
     @Test
     @WithMockUser(username = "Michael")
-    void shouldNoteDeleteMoviesByUserIfImdbIDisInvalid() throws Exception {
+    void shouldNotDeleteMoviesByUserIfImdbIDisInvalid() throws Exception {
         String username = "Michael";
         Long id = 133L;
         String imdbID = "";
@@ -215,10 +223,13 @@ public class MovieControllerTest {
 
         when(accountService.getAccountByUsername(username)).thenReturn(Optional.of(account));
 
+        RemoveMovieRequest removeMovieRequest = new RemoveMovieRequest(imdbID);
+        String jsonRequest = new ObjectMapper().writeValueAsString(removeMovieRequest);
+
         mockMvc.perform(post("/movies/remove")
                         .with(csrf().asHeader())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(imdbID))
+                        .content(jsonRequest))
                 .andExpect(status().isBadRequest());
 
         verify(accountService, times(0)).getAccountByUsername(username);

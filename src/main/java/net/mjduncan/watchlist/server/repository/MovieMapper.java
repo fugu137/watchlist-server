@@ -26,6 +26,20 @@ public interface MovieMapper {
     List<Movie> findAllMovies();
 
 
+    @Select("SELECT * FROM movies WHERE imdb_id = #{imdbID}")
+    @Results({
+            @Result(property = "imdbID", column = "imdb_id", id = true),
+            @Result(property = "title", column = "title"),
+            @Result(property = "year", column = "year"),
+            @Result(property = "synopsis", column = "synopsis"),
+            @Result(property = "imdbRating", column = "imdb_rating"),
+            @Result(property = "tomatoesRating", column = "tomatoes_rating"),
+            @Result(property = "metacriticRating", column = "metacritic_rating"),
+            @Result(property = "posterURL", column = "poster_url")
+    })
+    Optional<Movie> findMovieById(String imdbID);
+
+
     @Select("SELECT * FROM movies ORDER BY ${sortColumn} ${sortOrder}")
     @Results({
             @Result(property = "imdbID", column = "imdb_id", id = true),
@@ -82,4 +96,5 @@ public interface MovieMapper {
 
     @Delete("DELETE FROM accounts_movies WHERE account_id = #{userId} AND movie_id = #{movieId}")
     void removeUserMovie(Long userId, String movieId);
+
 }

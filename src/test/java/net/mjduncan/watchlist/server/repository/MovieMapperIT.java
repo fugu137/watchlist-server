@@ -34,6 +34,15 @@ public class MovieMapperIT {
     }
 
     @Test
+    void shouldFindMovieById() {
+        Movie movie = new Movie("tt0172495", "Gladiator", 2001);
+
+        Optional<Movie> result = movieMapper.findMovieById(movie.getImdbID());
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), is(movie));
+    }
+
+    @Test
     void shouldFindAllMoviesWithAdditionalProperties() {
         Movie movie = new Movie("tt0172495", "Gladiator", 2001);
 

@@ -21,7 +21,11 @@ public class MovieService {
     }
 
     public void addUserMovie(Long userID, Movie movie) {
-        movieMapper.insertMovie(movie);
+        Optional<Movie> existingMovie = movieMapper.findMovieById(movie.getImdbID());
+
+        if (existingMovie.isEmpty()) {
+            movieMapper.insertMovie(movie);
+        }
         movieMapper.insertUserMovie(userID, movie.getImdbID());
     }
 

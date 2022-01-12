@@ -1,6 +1,7 @@
 package net.mjduncan.watchlist.server.controller;
 
 import net.mjduncan.watchlist.server.controller.dto.AddMovieRequest;
+import net.mjduncan.watchlist.server.controller.dto.RemoveMovieRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.service.AccountService;
@@ -78,8 +79,10 @@ public class MovieController {
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeUserMovie(@RequestBody String imdbID, Authentication authentication) {
-        if (imdbID == null || imdbID.equals("")) {
+    public ResponseEntity<String> removeUserMovie(@RequestBody RemoveMovieRequest removeMovieRequest, Authentication authentication) {
+        String imdbID = removeMovieRequest.getImdbID();
+
+        if (imdbID == null || imdbID.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
 
