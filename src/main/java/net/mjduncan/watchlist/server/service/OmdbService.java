@@ -26,9 +26,7 @@ public class OmdbService {
     private String omdbApiKey;
 
     private final String titleSearchPrefix = "&s=";
-
     private final String idSearchPrefix = "&i=";
-
     private final String fullSynopsis = "&plot=full";
 
 

@@ -36,6 +36,7 @@ public class OmdbServiceTest {
 
     private final String titleSearchPrefix = "&s=";
     private final String idSearchPrefix = "&i=";
+    private final String fullSynopsis = "&plot=full";
 
 
     @Test
@@ -87,7 +88,7 @@ public class OmdbServiceTest {
 
         Movie movie = new Movie(imdbID, "New Movie", 1950);
 
-        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID;
+        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID + fullSynopsis;
         when(restTemplate.getForEntity(url, Movie.class)).thenReturn(ResponseEntity.ok(movie));
 
         Movie result = omdbService.searchMoviesByID(imdbID).getBody();
