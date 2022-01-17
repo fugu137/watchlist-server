@@ -18,7 +18,7 @@ CREATE TABLE movies (
     imdb_id VARCHAR(10) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     year SMALLINT,
-    synopsis VARCHAR(255),
+    synopsis VARCHAR(1000),
     imdb_rating VARCHAR(10),
     tomatoes_rating VARCHAR(10),
     metacritic_rating VARCHAR(10),

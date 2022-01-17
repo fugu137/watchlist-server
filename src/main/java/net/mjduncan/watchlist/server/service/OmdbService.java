@@ -29,6 +29,8 @@ public class OmdbService {
 
     private final String idSearchPrefix = "&i=";
 
+    private final String fullSynopsis = "&plot=full";
+
 
     public ResponseEntity<SearchResults> searchMoviesByTitle(String movieTitle) {
         String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + titleSearchPrefix + movieTitle;
@@ -36,7 +38,7 @@ public class OmdbService {
     }
 
     public ResponseEntity<Movie> searchMoviesByID(String imdbID) {
-        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID;
+        String url = omdbBaseUrl + "/?apikey=" + omdbApiKey + "&type=movie" + idSearchPrefix + imdbID + fullSynopsis;
         return restTemplate.getForEntity(url, Movie.class);
     }
 }
