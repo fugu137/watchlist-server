@@ -40,28 +40,28 @@ public class MovieController {
         String username = authentication.getName();
         Optional<Account> account = accountService.getAccountByUsername(username);
 
-        if (account.isPresent()) {
-            Long userID = account.get().getId();
-            String imdbID = addMovieRequest.getImdbID();
-
-            Optional<Movie> movieToFind = movieService.getUserMovieByImdbID(userID, imdbID);
-
-            if (movieToFind.isPresent()) {
-                return ResponseEntity.status(409).build();
-            }
-
-            ResponseEntity<Movie> response = omdbService.searchMoviesByID(imdbID);
-            Movie movieToAdd = response.getBody();
-
-            if (response.getStatusCodeValue() != 200 || movieToAdd == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            movieService.addUserMovie(userID, movieToAdd);
-            return ResponseEntity.ok().build();
+        if (account.isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.badRequest().build();
+        Long userID = account.get().getId();
+        String imdbID = addMovieRequest.getImdbID();
+
+        Optional<Movie> movieToFind = movieService.getUserMovieByImdbID(userID, imdbID);
+
+        if (movieToFind.isPresent()) {
+            return ResponseEntity.status(409).build();
+        }
+
+        ResponseEntity<Movie> response = omdbService.searchMoviesByID(imdbID);
+        Movie movieToAdd = response.getBody();
+
+        if (response.getStatusCodeValue() != 200 || movieToAdd == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        movieService.addUserMovie(userID, movieToAdd);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

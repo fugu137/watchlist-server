@@ -4,6 +4,7 @@ import net.mjduncan.watchlist.server.controller.dto.CreateAccountRequest;
 import net.mjduncan.watchlist.server.model.Account;
 import net.mjduncan.watchlist.server.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +31,11 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
-        accountService.addAccount(createAccountRequest);
+        try {
+            accountService.addAccount(createAccountRequest);
+        } catch (DuplicateKeyException e) {
+            return ResponseEntity.status(409).build();
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

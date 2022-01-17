@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.postgresql.util.PSQLException;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    void shouldAddUserMovieByImdbId() {
+    void shouldAddUserMovieByImdbId() throws PSQLException {
         String movieId = "tt0780504";
         AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
         Movie movie = new Movie(addMovieRequest.getImdbID());
@@ -48,21 +49,6 @@ public class MovieServiceTest {
         movieService.addUserMovie(userId, movie);
 
         verify(movieMapper, times(1)).insertMovie(movie);
-        verify(movieMapper, times(1)).insertUserMovie(userId, movieId);
-    }
-
-    @Test
-    void shouldNotAddMovieToGeneralDatabaseIfAlreadyExists() {
-        String movieId = "tt0172495";
-        AddMovieRequest addMovieRequest = new AddMovieRequest(movieId);
-        Movie movie = new Movie(addMovieRequest.getImdbID());
-        Long userId = 1L;
-
-        when(movieMapper.findMovieById(movieId)).thenReturn(Optional.of(movie));
-
-        movieService.addUserMovie(userId, movie);
-
-        verify(movieMapper, times(0)).insertMovie(movie);
         verify(movieMapper, times(1)).insertUserMovie(userId, movieId);
     }
 

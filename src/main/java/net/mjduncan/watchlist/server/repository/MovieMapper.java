@@ -4,6 +4,7 @@ import net.mjduncan.watchlist.server.model.Movie;
 import net.mjduncan.watchlist.server.model.SortColumn;
 import net.mjduncan.watchlist.server.model.SortOrder;
 import org.apache.ibatis.annotations.*;
+import org.postgresql.util.PSQLException;
 
 import java.util.List;
 import java.util.Optional;
